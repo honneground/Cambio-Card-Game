@@ -638,6 +638,7 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 .settings-section:last-child { margin-bottom: 10px; }
 .settings-heading { margin-bottom: 6px; padding-inline: 4px; font-size: 15px; font-weight: 700; }
 .settings-group {
+  --option-font-size: clamp(10px, 4.7cqw, 13px);
   padding: 4px clamp(8px, 2.8vw, 16px); border-radius: 18px;
   background: color-mix(in srgb, var(--settings-surface) 94%, var(--on-surface)); border: 1px solid var(--settings-divider);
 }
@@ -658,16 +659,16 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 #setList, #setRules { container-type: inline-size; }
 .settings-choice { padding: 8px 0; font-size: 14px; font-weight: 600; }
 #setList .settings-choice + .settings-choice { border-top: 1px solid var(--settings-divider); }
-.seg.settings-options.language-options {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
-  gap: 6px; block-size: auto; min-height: 44px; padding: 5px;
-}
+/* Keep the pill row measurable while the dropdown is visible. */
+.settings-language-controls { display: grid; grid-template-columns: minmax(0, 1fr); }
+.settings-language-controls > .seg { grid-area: 1 / 1; }
+.settings-language-controls:not(.menu-mode) .settings-language-picker,
+.settings-language-controls.menu-mode .language-options { visibility: hidden; }
+.language-options { overflow: hidden; }
 .language-options .ind { display: none; }
-.language-options button {
-  height: 36px; border-radius: 999px;
+.settings-options.language-options button {
+  flex: 1 0 auto; min-inline-size: max-content; padding-inline: 6px; white-space: nowrap;
   background: color-mix(in srgb, var(--on-surface) 6%, transparent);
-  font-size: clamp(11px, 3.6cqw, 13px); font-weight: 600; color: var(--on-surface);
-  transition: background .2s, color .2s, box-shadow .2s;
 }
 .language-options button.on {
   background: var(--sel-bg); color: var(--sel-fg);
@@ -676,7 +677,18 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 .language-options button:is(:hover, :focus-visible):not(.on) {
   background: color-mix(in srgb, var(--primary) 14%, transparent);
 }
-.seg.settings-language-picker { display: none; }
+.seg.settings-language-picker { margin-top: 6px; padding: 0; }
+.settings-language-picker select {
+  display: block; appearance: none; width: 100%; min-height: 44px; padding: 8px 36px 8px 14px;
+  border: 0; border-radius: inherit; background: transparent; color: inherit; color-scheme: dark;
+  font-size: var(--option-font-size); font-weight: 600; cursor: pointer; touch-action: manipulation;
+}
+html[data-theme="light"] .settings-language-picker select { color-scheme: light; }
+.settings-language-picker select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.settings-language-picker::after {
+  content: ''; position: absolute; inset-inline-end: 17px; top: 50%; width: 7px; height: 7px;
+  border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-70%) rotate(45deg); pointer-events: none;
+}
 .seg.settings-options {
   --option-gap: 6px; --option-inset: 4px;
   width: 100%; block-size: 44px; gap: var(--option-gap); margin: 6px 0 0; padding: var(--option-inset);
@@ -690,7 +702,7 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 }
 .settings-options button {
   display: grid; place-items: center; flex: 1 1 0; min-width: 0; height: 100%;
-  padding: 3px 2px; text-align: center; font-size: clamp(10px, 4.7cqw, 13px); line-height: 1.2;
+  padding: 3px 2px; text-align: center; font-size: var(--option-font-size); line-height: 1.2;
   overflow-wrap: break-word; text-wrap: balance;
   transition: color .2s, background .18s, box-shadow .18s;
 }
@@ -854,19 +866,6 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
   #rulesModal .dialog .body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   #settingsModal .dialog { --settings-inset: 12px; padding: 12px 0 8px; }
   #settingsModal .actions { gap: 8px; margin-top: 0; padding-top: 8px; }
-  .seg.settings-options.language-options { display: none; }
-  .seg.settings-language-picker { display: block; margin-top: 6px; padding: 0; }
-  .settings-language-picker select {
-    display: block; appearance: none; width: 100%; min-height: 44px; padding: 8px 36px 8px 14px;
-    border: 0; border-radius: inherit; background: transparent; color: inherit; color-scheme: dark;
-    font-size: 16px; font-weight: 600; cursor: pointer; touch-action: manipulation;
-  }
-  html[data-theme="light"] .settings-language-picker select { color-scheme: light; }
-  .settings-language-picker select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-  .settings-language-picker::after {
-    content: ''; position: absolute; inset-inline-end: 17px; top: 50%; width: 7px; height: 7px;
-    border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-70%) rotate(45deg); pointer-events: none;
-  }
   #overModal table { font-size: 12px; }
   #overModal :is(th, td) { padding: 6px 4px; overflow-wrap: anywhere; }
   #overModal .score-card { margin-inline-end: 3px; }
@@ -1312,7 +1311,7 @@ const LOCALES = {
         redKingZero: ['赤のKは0点', 'ハートのKとダイヤのKを0点として計算（他のKともペア可能）'],
         callerZeroScore: ['Monkey成功で0点', '宣言成功時、宣言者のスコアのみ0点とする'],
         opponentSlap: ['相手のカードをペア捨て', '成功時、自分の手札1枚を相手の空いたスロットに伏せて渡す'],
-        kamikaze: ['神風（カミカゼ）', '手札がちょうどQ・Q・K・Kのプレイヤーは0点、他全員は50点'],
+        kamikaze: ['カミカゼ', '手札がちょうどQ・Q・K・Kのプレイヤーは0点、他全員は50点'],
       }, rounds: 'ラウンド', startMatch: '開始',
       nextRound: '次のラウンド', thTotal: '合計', dealer: '先手', finalSub: '累積合計スコアが最も低いプレイヤーが優勝。',
       roundLbl: (r, R) => `第 ${r} / ${R} ラウンド`,
@@ -1331,7 +1330,7 @@ const LOCALES = {
         <p><b>ペア捨て（スラップ）</b>：捨て札置き場にカードが出た直後、優先時間が与えられます。同じ数字の手札をタップすれば即座に捨てられ、空きスロットになります。間違えるとペナルティカードが1枚配られます。</p>
         <p><b>相手のカードをペア捨て</b>：「相手のカードをペア捨て」有効時、相手の伏せカードを予想して捨てられます。成功すると相手のカードを捨てさせ、自分の手札1枚を相手の空きスロットに渡します。</p>
         <p><b>Monkey宣言</b>：自分のターン開始時に宣言します。他のプレイヤーが最後にもう1ターン行動した後、全員の手札を開示します。宣言者のスコアが単独最低でない場合、ペナルティ+10点が加算されます。</p>
-        <p><b>神風</b>：有効時、手札がちょうどQ・Q・K・Kのプレイヤーは0点、それ以外のプレイヤーは全員50点になります。</p>`
+        <p><b>カミカゼ</b>：有効時、手札がちょうどQ・Q・K・Kのプレイヤーは0点、それ以外のプレイヤーは全員50点になります。</p>`
     },
     skill: { PEEK: ['8', 'のぞき見', '自分のカードを1枚見る'], SPY: ['9', 'スパイ', '相手のカードを1枚見る'], SWAP: ['10', 'ブラインドスワップ', '見ずに相手のカードと交換する'] },
     hud: {
@@ -1370,10 +1369,10 @@ const LOCALES = {
       monkeyAuto: (a, n) => `${n(a.p)}の手札が無くなり自動でMonkey宣言！残りのプレイヤーは最後の1ターン`,
       penalty: (a, n) => `${n(a.p)}は${a.strictTie === false ? '最低スコアに届かず' : '単独最低スコアを獲得できず'}、追加10点`,
       monkeyZero: (a, n) => `${n(a.p)}がMonkey成功！このラウンドは0点`,
-      kamikaze: (a, n) => `${a.players.map(n).join('、')}が神風を達成！達成者は0点、他プレイヤーは各50点`,
+      kamikaze: (a, n) => `${a.players.map(n).join('、')}がカミカゼを達成！達成者は0点、他プレイヤーは各50点`,
       reshuffle: () => '捨て札をシャッフルして山札に戻しました'
     },
-    over: { finalYou: () => 'あなたが総合優勝しました', finalOther: (n) => `${n}が総合優勝しました`, finalTie: (n) => `${n}が同点優勝`, you: () => 'あなたの勝利', other: (n) => `${n}の勝利`, tie: (n) => `${n}が同点1位`, monkeyTag: 'Monkey宣言', monkeyZero: '宣言成功 · 0点', pen: '罰 +10', kamikazeTag: '神風', kamikazeSummary: '神風達成：達成者は0点、他プレイヤーは各50点。' }
+    over: { finalYou: () => 'あなたが総合優勝しました', finalOther: (n) => `${n}が総合優勝しました`, finalTie: (n) => `${n}が同点優勝`, you: () => 'あなたの勝利', other: (n) => `${n}の勝利`, tie: (n) => `${n}が同点1位`, monkeyTag: 'Monkey宣言', monkeyZero: '宣言成功 · 0点', pen: '罰 +10', kamikazeTag: 'カミカゼ', kamikazeSummary: 'カミカゼ達成：達成者は0点、他プレイヤーは各50点。' }
   },
   ko: {
   tag: 'ko-KR', label: '한국어', you: '나',
@@ -2621,6 +2620,7 @@ class Game {
     document.getElementById('setDeveloperTitle').textContent = U.configSection;
     document.getElementById('setClose').textContent = U.close;
     this.renderRulesNote();
+    this.settingsLanguageFit?.disconnect();
     display.replaceChildren();
     rules.replaceChildren();
     const preview = document.getElementById('setPreview');
@@ -2638,9 +2638,12 @@ class Game {
       caption.textContent = title;
       group.setAttribute('aria-label', title);
       group.style.setProperty('--n', styles.length);
+      let languageControls;
       if (pref === 'lang') {
         group.classList.add('language-options');
         caption.id = 'setLanguageLabel';
+        languageControls = document.createElement('div');
+        languageControls.className = 'settings-language-controls';
         const picker = document.createElement('div');
         picker.className = 'seg settings-language-picker';
         const select = document.createElement('select');
@@ -2653,7 +2656,8 @@ class Game {
         select.value = this.lang;
         select.onchange = () => this.setLanguage(select.value);
         picker.appendChild(select);
-        row.appendChild(picker);
+        group.replaceWith(languageControls);
+        languageControls.append(group, picker);
       }
       const indicator = group.firstElementChild;
       const buttons = styles.map(value => {
@@ -2690,6 +2694,19 @@ class Game {
       });
       syncChoice();
       display.appendChild(row);
+      if (languageControls) {
+        const select = languageControls.querySelector('select');
+        const updateFit = () => {
+          const focus = document.activeElement;
+          const menu = group.scrollWidth > group.clientWidth;
+          languageControls.classList.toggle('menu-mode', menu);
+          if (menu && group.contains(focus)) select.focus({ preventScroll: true });
+          else if (!menu && focus === select) group.querySelector('.on')?.focus({ preventScroll: true });
+        };
+        updateFit();
+        this.settingsLanguageFit = new ResizeObserver(updateFit);
+        for (const element of [group, ...buttons]) this.settingsLanguageFit.observe(element);
+      }
     }
     this.bindSettingsPreview(display, preview);
     const rounds = document.createElement('div');
