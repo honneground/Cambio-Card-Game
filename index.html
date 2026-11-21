@@ -300,13 +300,13 @@ html[data-theme="light"] .slap-bar { background: rgba(30, 50, 90, .2); box-shado
 @media (max-width: 700px), (max-height: 500px) and (max-width: 950px), (max-height: 500px) and (pointer: coarse) {
   :root {
     --table-width: calc(100vw - var(--table-left, 6px) - var(--table-right, 6px));
-    --table-height: calc(100dvh - var(--header-total, 46px) - var(--table-bottom, 6px));
-    --board-top-inset: 64px;
-    --board-bottom-inset: 48px;
+    --table-height: calc(100dvh - var(--header-total) - var(--table-bottom, 6px));
+    --board-top-inset: clamp(60px, 8.75dvh, 74px);
+    --board-bottom-inset: clamp(50px, 6.75dvh, 57px);
     --name-height: 22px;
     --gap: 5px;
-    --pile-gap: 13px;
-    --ch: clamp(29px, min(calc((var(--table-width) - 55px) / 5), calc((var(--table-height) - 211px) / 5.15)), 78px);
+    --pile-gap: 15px;
+    --ch: clamp(29px, min(calc((var(--table-width) - 55px) / 5), calc((var(--table-height) - var(--board-top-inset) - var(--board-bottom-inset) - 99px) / 5.15)), 78px);
   }
   body { height: 100dvh; }
   .stage { border-radius: 18px; }
@@ -339,11 +339,11 @@ html[data-theme="light"] .slap-bar { background: rgba(30, 50, 90, .2); box-shado
 
 @media (orientation: landscape) and (max-width: 700px), (orientation: landscape) and (max-height: 500px) and (max-width: 950px), (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
   :root {
-    --board-top-inset: 36px;
-    --board-bottom-inset: 44px;
+    --board-top-inset: 40px;
+    --board-bottom-inset: 46px;
     --name-height: 18px;
     --center-track: calc(7 * var(--cw) + 6 * var(--gap));
-    --ch: clamp(22px, min(calc((var(--table-width) - 86px) / 10.72), calc((var(--table-height) - 148px) / 3.12)), 66px);
+    --ch: clamp(22px, min(calc((var(--table-width) - 86px) / 10.72), calc((var(--table-height) - var(--board-top-inset) - var(--board-bottom-inset) - 68px) / 3.12)), 66px);
   }
   .seat { --held-width: calc(var(--cw) + var(--gap)); }
   .seat-top, .seat-bottom { --seat-cols: var(--slot-count, 4); --seat-rows: 1; padding-right: var(--held-width); }
@@ -357,7 +357,7 @@ html[data-theme="light"] .slap-bar { background: rgba(30, 50, 90, .2); box-shado
   .seat-left .held, .seat-right .held { top: calc(50% - var(--ch) / 2); }
   .seat-left .held { left: 0; }
   .seat-right .held { left: auto; right: 0; }
-  .center { gap: 3px; }
+  .center { gap: 3px; padding-block-start: 6px; }
   .slap-bar { height: 5px; }
 }
 
@@ -383,9 +383,12 @@ html[data-theme="light"] .slap-bar { background: rgba(30, 50, 90, .2); box-shado
 
 /* ---------- Log (left) ---------- */
 .log {
-  position: absolute; left: 16px; bottom: 16px; z-index: 30; width: 250px; height: 168px;
+  --log-open-width: 250px; --log-closed-width: var(--log-open-width);
+  --log-open-height: 168px; --log-head-height: 40px;
+  position: absolute; left: 16px; bottom: 16px; z-index: 30;
+  width: var(--log-open-width); height: var(--log-open-height);
   background: color-mix(in srgb, var(--surface) 92%, transparent); border-radius: 6px 26px 6px 26px; overflow: hidden;   /* one rounded diagonal, one square diagonal */
-  display: flex; flex-direction: column; transition: height .4s var(--ease), border-radius .4s var(--ease); backdrop-filter: blur(8px);
+  display: flex; flex-direction: column; backdrop-filter: blur(8px);
   box-shadow: 0 1px 3px rgba(0,0,0,.25), 0 4px 8px 3px rgba(0,0,0,.12);
 }
 .stage:not(.ingame) .log { visibility: hidden; }
@@ -395,19 +398,24 @@ html[data-theme="light"] .slap-bar { background: rgba(30, 50, 90, .2); box-shado
   42% { transform: translateY(0); height: 40px; border-radius: 20px; }
   100% { transform: translateY(0); }
 }
-.log.collapsed { height: 40px; border-radius: 20px; }
-.log-head { height: 40px; flex: none; padding: 0 8px 0 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--on-surface-variant); border: 0; background: transparent; text-align: start; }
+.log.collapsed { width: var(--log-closed-width); height: var(--log-head-height); border-radius: calc(var(--log-head-height) / 2); }
+.log-head { height: var(--log-head-height); flex: none; padding: 0 8px 0 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--on-surface-variant); border: 0; background: transparent; text-align: start; }
 .log-head:focus-visible { outline: 2px solid var(--primary); outline-offset: -3px; }
-.log-head .icon { width: 20px; height: 20px; transition: transform .4s var(--ease); }
+.log-head .icon { width: 20px; height: 20px; }
 .log.collapsed .log-head .icon { transform: rotate(180deg); }
 .log-body {
   flex: 1; min-height: 0; overflow-y: auto; padding: 0 14px 10px; font-size: 12px; line-height: 1.5;
   color: var(--on-surface-variant); display: flex; flex-direction: column; gap: 3px;
-  transition: opacity .24s .06s ease, transform .32s var(--ease);
 }
-.log.collapsed .log-body { opacity: 0; transform: translateY(7px); pointer-events: none; transition-delay: 0s; }
+.log.collapsed .log-body { opacity: 0; transform: translateY(7px); visibility: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .log.animate-toggle { transition: width .30s var(--ease), height .36s var(--ease), border-radius .36s var(--ease); }
+  .log.animate-toggle.collapsed { transition: width .24s .045s ease-in-out, height .28s .02s ease-in-out, border-radius .30s ease-in-out; }
+  .log.animate-toggle .log-head .icon { transition: transform .28s var(--ease); }
+  .log.animate-toggle .log-body { transition: opacity .18s .14s ease-out, transform .22s .12s var(--ease), visibility 0s; }
+  .log.animate-toggle.collapsed .log-body { transition: opacity .10s ease-in, transform .15s ease-in, visibility 0s linear .10s; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .log, .log-head .icon, .log-body { transition: none; }
   .stage.ingame:not(.restored) .log { animation: none; }
 }
 .log-body::-webkit-scrollbar { width: 4px; } .log-body::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 2px; }
@@ -668,6 +676,7 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 .language-options button:is(:hover, :focus-visible):not(.on) {
   background: color-mix(in srgb, var(--primary) 14%, transparent);
 }
+.seg.settings-language-picker { display: none; }
 .seg.settings-options {
   --option-gap: 6px; --option-inset: 4px;
   width: 100%; block-size: 44px; gap: var(--option-gap); margin: 6px 0 0; padding: var(--option-inset);
@@ -788,14 +797,14 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
 #settingsModal, #rulesModal { z-index: 95; }
 @media (max-width: 700px), (max-height: 500px) and (max-width: 950px), (max-height: 500px) and (pointer: coarse) {
   :root {
-    --header-height: 46px;
+    --header-height: 48px;
     --table-left: max(6px, env(safe-area-inset-left, 0px));
     --table-right: max(6px, env(safe-area-inset-right, 0px));
     --table-bottom: max(6px, env(safe-area-inset-bottom, 0px));
   }
   .topbar { padding-inline: var(--table-left) var(--table-right); }
   .topbar .brand { display: none; }
-  .tools { flex: 1; min-width: 0; justify-content: center; gap: 0; }
+  .tools { flex: 1; min-width: 0; justify-content: center; gap: 2px; }
   .tools .icon-btn { flex: 0 1 44px; width: auto; min-width: 0; height: 44px; }
   .tools .icon { width: 20px; height: 20px; }
   @media (min-width: 600px) {
@@ -804,7 +813,7 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
   }
 
   .hudbox {
-    top: 4px; left: 8px; right: 8px; max-width: none;
+    top: 6px; left: 10px; right: 10px; max-width: none;
     display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 7px; align-items: center;
     pointer-events: none;
   }
@@ -819,9 +828,12 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
   .corner { gap: 4px; max-width: calc(100% - 96px); }
   .corner .btn, .btn.result-btn { height: 38px; padding-inline: 13px; font-size: 13px; }
   .corner .btn { white-space: normal; line-height: 1.15; }
-  .log { left: 8px; bottom: 6px; width: min(46%, 248px); height: min(144px, 68%); z-index: 30; }
-  .log.collapsed { width: min(96px, 46%); height: 36px; border-radius: 18px; }
-  .log-head { height: 36px; padding-inline: 10px 6px; gap: 6px; font-size: 12px; }
+  .log {
+    --log-open-width: min(46%, 248px); --log-closed-width: min(96px, 46%);
+    --log-open-height: min(144px, 68%); --log-head-height: 36px;
+    left: 8px; bottom: 6px;
+  }
+  .log-head { padding-inline: 10px 6px; gap: 6px; font-size: 12px; }
   .log-head .icon { flex: none; width: 16px; height: 16px; }
   .log-body { padding: 0 9px 8px; overscroll-behavior: contain; overflow-wrap: anywhere; }
   .stage.ingame:not(.restored) .log { animation: none; }
@@ -842,6 +854,19 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
   #rulesModal .dialog .body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   #settingsModal .dialog { --settings-inset: 12px; padding: 12px 0 8px; }
   #settingsModal .actions { gap: 8px; margin-top: 0; padding-top: 8px; }
+  .seg.settings-options.language-options { display: none; }
+  .seg.settings-language-picker { display: block; margin-top: 6px; padding: 0; }
+  .settings-language-picker select {
+    display: block; appearance: none; width: 100%; min-height: 44px; padding: 8px 36px 8px 14px;
+    border: 0; border-radius: inherit; background: transparent; color: inherit; color-scheme: dark;
+    font-size: 16px; font-weight: 600; cursor: pointer; touch-action: manipulation;
+  }
+  html[data-theme="light"] .settings-language-picker select { color-scheme: light; }
+  .settings-language-picker select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .settings-language-picker::after {
+    content: ''; position: absolute; inset-inline-end: 17px; top: 50%; width: 7px; height: 7px;
+    border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-70%) rotate(45deg); pointer-events: none;
+  }
   #overModal table { font-size: 12px; }
   #overModal :is(th, td) { padding: 6px 4px; overflow-wrap: anywhere; }
   #overModal .score-card { margin-inline-end: 3px; }
@@ -2071,9 +2096,11 @@ class Game {
     return d;
   }
   renderLog() { this.el.logBody.innerHTML = ''; this.logs.forEach(e => this.el.logBody.appendChild(this.logLine(e))); this.el.logBody.scrollTop = this.el.logBody.scrollHeight; }
-  setLogCollapsed(collapsed) {
+  setLogCollapsed(collapsed, animate = false) {
+    this.el.log.classList.toggle('animate-toggle', animate);
     this.el.log.classList.toggle('collapsed', collapsed);
     this.el.log.querySelector('.log-head').setAttribute('aria-expanded', !collapsed);
+    this.el.logBody.inert = collapsed;
   }
 
   /* ---------- theme / ambient light ---------- */
@@ -2298,7 +2325,7 @@ class Game {
       panel.onclick = (e) => { if (e.target === panel) this.togglePanel(null); };
     }
     id('logHead').onclick = () => {
-      this.setLogCollapsed(!this.el.log.classList.contains('collapsed'));
+      this.setLogCollapsed(!this.el.log.classList.contains('collapsed'), true);
       this.persistMatch();
     };
     id('logHead').onkeydown = e => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); };
@@ -2611,7 +2638,23 @@ class Game {
       caption.textContent = title;
       group.setAttribute('aria-label', title);
       group.style.setProperty('--n', styles.length);
-      if (pref === 'lang') group.classList.add('language-options');
+      if (pref === 'lang') {
+        group.classList.add('language-options');
+        caption.id = 'setLanguageLabel';
+        const picker = document.createElement('div');
+        picker.className = 'seg settings-language-picker';
+        const select = document.createElement('select');
+        select.setAttribute('aria-labelledby', caption.id);
+        select.append(...styles.map(code => {
+          const option = new Option(labels[code], code);
+          option.lang = T[code].tag;
+          return option;
+        }));
+        select.value = this.lang;
+        select.onchange = () => this.setLanguage(select.value);
+        picker.appendChild(select);
+        row.appendChild(picker);
+      }
       const indicator = group.firstElementChild;
       const buttons = styles.map(value => {
         const button = document.createElement('button');
@@ -3036,7 +3079,7 @@ class Game {
     if (!animate) this.el.layer.classList.add('instant');
     const stageRight = this.el.stage.getBoundingClientRect().right;
     const handRight = this.el.rightGrid.getBoundingClientRect().right;
-    this.el.stage.style.setProperty('--actions-right', `${Math.max(16, stageRight - handRight)}px`);
+    this.el.stage.style.setProperty('--actions-right', `${Math.max(this.mobileLayout.matches ? 8 : 16, stageRight - handRight)}px`);
     const dr = this.el.deck.getBoundingClientRect(), xr = this.el.discard.getBoundingClientRect();
     const deckStep = this.mobileLayout.matches ? 1 : 1.7;
     const discardStep = this.mobileLayout.matches ? 1.3 : 2.2;
