@@ -162,7 +162,6 @@ body {
 .icon-btn:hover::after { opacity: .08; }
 .icon-btn:active::after { opacity: .12; }
 .icon-btn.toggled, .icon-btn[popovertarget][aria-expanded="true"] { border-radius: 12px; background: var(--secondary-container); color: var(--on-secondary-container); }
-#btnTheme { anchor-name: --theme-trigger; }
 #themeIcon path {
   opacity: 0; transform-box: view-box; transform-origin: center;
   transition: transform .42s var(--ease-spring), opacity .24s ease-in-out;
@@ -612,7 +611,6 @@ html[data-theme="light"] .dialog { background: #fff; }
   content: ''; position: absolute; inset-inline-end: 13px; top: 50%; width: 5px; height: 9px;
   border: solid var(--primary); border-width: 0 2px 2px 0; transform: translateY(-60%) rotate(45deg);
 }
-#themeMenu { position-anchor: --theme-trigger; }
 #settingsModal {
   overflow: clip;
 }
@@ -885,12 +883,7 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
         <button class="icon-btn" id="btnPause" data-tip="pause" aria-keyshortcuts="P Space"><svg class="icon" viewBox="0 0 24 24" id="pauseIcon"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
     <button type="button" class="icon-btn" id="btnLang" data-tip="lang" popovertarget="languageMenu" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg></button>
     <div class="export-menu topbar-menu" id="languageMenu" popover role="group" aria-labelledby="btnLang"></div>
-    <button type="button" class="icon-btn" id="btnTheme" data-tip="theme" popovertarget="themeMenu" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" id="themeIcon" aria-hidden="true"></svg></button>
-    <div class="export-menu topbar-menu" id="themeMenu" popover role="group" aria-labelledby="btnTheme">
-      <button type="button" data-theme-mode="light"></button>
-      <button type="button" data-theme-mode="system"></button>
-      <button type="button" data-theme-mode="dark"></button>
-    </div>
+    <button type="button" class="icon-btn" id="btnTheme" data-tip="theme"><svg class="icon" viewBox="0 0 24 24" id="themeIcon" aria-hidden="true"></svg></button>
     <button class="icon-btn" id="btnSound" data-tip="sound"><svg class="icon" viewBox="0 0 24 24" id="soundIcon"></svg></button>
     <button class="icon-btn" id="btnRules" data-tip="rules"><svg class="icon" viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg></button>
     <button class="icon-btn" id="btnSettings" data-tip="settings"><svg class="icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button>
@@ -1025,7 +1018,7 @@ const LOCALES = {
       settings: 'Settings', settingsTitle: 'Settings', displaySection: 'Display', ruleSection: 'Rules',
       matchRounds: 'Rounds per match (applies next match)', languageTitle: 'Language',
       rulesPending: 'Saved · Applies next match', export: 'Export', exportLog: 'Log (TXT)', exportRecord: 'Full record (JSON)',
-      themeModes: { light: 'Light', system: 'System', dark: 'Dark' },
+      themeTitle: 'Theme', themeModes: { light: 'Light', system: 'System', dark: 'Dark' },
       backTitle: 'Card back pattern',
       backs: { corners: 'Corners', plain: 'Plain', frame: 'Frame', stripes: 'Stripes', dots: 'Dots' },
       hlTitle: 'Selection highlight',
@@ -1119,7 +1112,7 @@ const LOCALES = {
     settings: 'Ajustes', settingsTitle: 'Ajustes', displaySection: 'Pantalla', ruleSection: 'Reglas',
     matchRounds: 'Rondas por partida (aplica en la siguiente)', languageTitle: 'Idioma',
     rulesPending: 'Guardado · Aplica en la siguiente partida', export: 'Exportar', exportLog: 'Registro (TXT)', exportRecord: 'Registro completo (JSON)',
-    themeModes: { light: 'Claro', system: 'Sistema', dark: 'Oscuro' },
+    themeTitle: 'Tema', themeModes: { light: 'Claro', system: 'Sistema', dark: 'Oscuro' },
     backTitle: 'Dorso de cartas',
     backs: { corners: 'Esquinas', plain: 'Liso', frame: 'Marco', stripes: 'Rayas', dots: 'Puntos' },
     hlTitle: 'Resaltado de selección',
@@ -1207,7 +1200,7 @@ const LOCALES = {
     settings: 'Paramètres', settingsTitle: 'Paramètres', displaySection: 'Affichage', ruleSection: 'Règles',
     matchRounds: 'Manches par partie (s’applique à la suivante)', languageTitle: 'Langue',
     rulesPending: 'Enregistré · S’applique à la prochaine partie', export: 'Exporter', exportLog: 'Journal (TXT)', exportRecord: 'Enregistrement complet (JSON)',
-    themeModes: { light: 'Clair', system: 'Système', dark: 'Sombre' },
+    themeTitle: 'Thème', themeModes: { light: 'Clair', system: 'Système', dark: 'Sombre' },
     backTitle: 'Dos des cartes',
     backs: { corners: 'Coins', plain: 'Uni', frame: 'Cadre', stripes: 'Rayures', dots: 'Points' },
     hlTitle: 'Surbrillance de sélection',
@@ -1295,7 +1288,7 @@ const LOCALES = {
       settings: '設定', settingsTitle: '設定', displaySection: '表示', ruleSection: 'ルール',
       matchRounds: 'マッチのラウンド数（次回適用）', languageTitle: '言語',
       rulesPending: '保存完了 · 次回マッチ開始時に適用', export: 'エクスポート', exportLog: '対局ログ (TXT)', exportRecord: '全記録 (JSON)',
-      themeModes: { light: 'ライト', system: 'システム連動', dark: 'ダーク' },
+      themeTitle: 'テーマ', themeModes: { light: 'ライト', system: 'システム連動', dark: 'ダーク' },
       backTitle: 'カード裏面',
       backs: { corners: 'コーナー', plain: '無地', frame: 'フレーム', stripes: 'ストライプ', dots: 'ドット' },
       hlTitle: '選択ハイライト',
@@ -1386,7 +1379,7 @@ const LOCALES = {
     settings: '설정', settingsTitle: '설정', displaySection: '화면', ruleSection: '규칙',
     matchRounds: '경기당 라운드 수 (다음 경기부터 적용)', languageTitle: '언어',
     rulesPending: '저장됨 · 다음 경기 시작 시 적용', export: '내보내기', exportLog: '전투 기록 (TXT)', exportRecord: '전체 기록 (JSON)',
-    themeModes: { light: '라이트', system: '시스템 연동', dark: '다크' },
+    themeTitle: '테마', themeModes: { light: '라이트', system: '시스템 연동', dark: '다크' },
     backTitle: '카드 뒷면 패턴',
     backs: { corners: '모서리', plain: '단색', frame: '프레임', stripes: '스트라이프', dots: '도트' },
     hlTitle: '선택 강조 효과',
@@ -1474,7 +1467,7 @@ const LOCALES = {
       settings: '设置', settingsTitle: '设置', displaySection: '显示', ruleSection: '规则',
       matchRounds: '每局场数（下一局生效）', languageTitle: '语言',
       rulesPending: '已保存 · 下一局开始时生效', export: '导出', exportLog: '战报 (TXT)', exportRecord: '完整记录 (JSON)',
-      themeModes: { light: '浅色', system: '跟随系统', dark: '深色' },
+      themeTitle: '主题', themeModes: { light: '浅色', system: '跟随系统', dark: '深色' },
       backTitle: '卡背花纹',
       backs: { corners: '角线', plain: '纯色', frame: '边框', stripes: '斜纹', dots: '点阵' },
       hlTitle: '选中提示',
@@ -1566,7 +1559,7 @@ const LOCALES = {
       settings: '設定', settingsTitle: '設定', displaySection: '顯示', ruleSection: '規則',
       matchRounds: '每局場數（下一局生效）', languageTitle: '語言',
       rulesPending: '已儲存 · 下一局開始時生效', export: '匯出', exportLog: '戰報 (TXT)', exportRecord: '完整記錄 (JSON)',
-      themeModes: { light: '淺色', system: '跟隨系統', dark: '深色' },
+      themeTitle: '主題', themeModes: { light: '淺色', system: '跟隨系統', dark: '深色' },
       backTitle: '卡背花紋',
       backs: { corners: '角線', plain: '純色', frame: '邊框', stripes: '斜紋', dots: '點陣' },
       hlTitle: '選中提示',
@@ -1729,6 +1722,7 @@ const LEGACY_MATCH_RULES = Object.freeze({
   redKingZero: false, callerZeroScore: false, opponentSlap: false, kamikaze: false,
 });
 const MOVE = 560;
+const CARD_DRAG_THRESHOLD = 6;
 const DISCARD_ANGLES = [-7, 5, -3, 8, -5, 3];
 const MATCH_SAVE = 'monkey-match-save';
 const MATCH_FIELDS = ['match', 'roster', 'ar', 'logs', 'hud', 'phase', 'dealer', 'turn', 'caller', 'finalLeft', 'finalTriggerTurn', 'ended',
@@ -1764,7 +1758,7 @@ class Game {
       roundActions: id('roundActions'), ready: id('btnReady'), monkey: id('btnMonkey'), skip: id('btnSkip'), skipSkill: id('btnSkipSkill'),
       showResult: id('btnShowResult'), shortcutHint: id('shortcutHint'), xray: id('btnXray'), pause: id('btnPause'),
       rightGrid: q('.seat-right .grid'), log: id('log'), logBody: id('logBody'),
-      ambient: id('ambient'), pauseIcon: id('pauseIcon'), themeMenu: id('themeMenu'), themeIcon: id('themeIcon'), soundIcon: id('soundIcon'),
+      ambient: id('ambient'), pauseIcon: id('pauseIcon'), themeIcon: id('themeIcon'), soundIcon: id('soundIcon'),
       over: id('overModal'), rules: id('rulesModal'), settings: id('settingsModal'), setup: id('setupModal'), roundInfo: id('roundInfo')
     };
     this.seatEls = [];
@@ -2015,7 +2009,6 @@ class Game {
     this.el.ready.textContent = u.start; this.el.monkey.textContent = u.monkey; this.el.skip.textContent = u.skip; this.el.skipSkill.textContent = u.skipSkill;
     document.getElementById('rulesBody').innerHTML = u.rules;
     this.renderNames(); this.renderHud(); this.renderLog(); this.renderXray();
-    this.renderThemeMenu();
     this.renderSkillToast();
     if (this.overData) this.renderOver();
     this.refresh();
@@ -2109,19 +2102,11 @@ class Game {
     this.write('monkey-theme', mode);
     this.applyTheme();
   }
-  renderThemeMenu() {
-    const labels = T[this.lang].ui.themeModes;
-    for (const button of this.el.themeMenu.querySelectorAll('[data-theme-mode]')) {
-      const mode = button.dataset.themeMode;
-      button.textContent = labels[mode];
-      button.setAttribute('aria-pressed', mode === this.themeMode);
-    }
-  }
   applyTheme() {
     this.theme = this.themeMode === 'system' ? (this.systemTheme.matches ? 'dark' : 'light') : this.themeMode;
     document.documentElement.dataset.theme = this.theme;
     document.getElementById('themeColor').content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-    this.renderThemeMenu();
+    this.syncThemeChoice?.();
     this.el.soundIcon.innerHTML = `<path d="${sound.on ? ICON.volOn : ICON.volOff}"/>`;
     document.getElementById('btnSound').classList.toggle('toggled', !sound.on);
   }
@@ -2277,16 +2262,8 @@ class Game {
     this.bindDropdown(languageTrigger, languageMenu);
     id('btnAssist').classList.toggle('toggled', this.assist);
     id('btnWho').classList.toggle('toggled', this.who);
-    const themeTrigger = id('btnTheme'), { themeMenu, themeIcon } = this.el;
-    themeIcon.innerHTML = `<path class="theme-sun" d="${ICON.sun}"/><path class="theme-moon" d="${ICON.moon}"/>`;
-    this.bindDropdown(themeTrigger, themeMenu);
-    themeMenu.onclick = e => {
-      const option = e.target.closest('[data-theme-mode]');
-      if (!option) return;
-      this.setDropdownOpen(themeTrigger, themeMenu, false);
-      themeTrigger.focus();
-      this.setTheme(option.dataset.themeMode);
-    };
+    this.el.themeIcon.innerHTML = `<path class="theme-sun" d="${ICON.sun}"/><path class="theme-moon" d="${ICON.moon}"/>`;
+    id('btnTheme').onclick = () => this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
     this.systemTheme.addEventListener('change', () => { if (this.themeMode === 'system') this.applyTheme(); });
     id('btnSound').onclick = () => {
       sound.on = !sound.on;
@@ -2350,7 +2327,7 @@ class Game {
         return;
       }
       if ((e.key !== ' ' && e.key !== 'Enter') || e.shiftKey) return;
-      if (focused.matches('.tools button[aria-expanded]')) return;
+      if (focused.matches('.tools button[aria-expanded], #btnTheme')) return;
       const key = e.key === ' ' ? 'Space' : e.key;
       const action = this.activeRoundAction(key);
       if (!action) return;
@@ -2402,11 +2379,15 @@ class Game {
       else if (l.t === 'held' && l.p === 0) this.onTarget({ k: 'discard' });   // tap the drawn card to discard it
     });
     window.addEventListener('pointerdown', (e) => {
-      if (e.isPrimary) this.dragClickPointer = null;
+      if (e.isPrimary) this.suppressedCardClick = null;
     }, true);
     window.addEventListener('click', (e) => {
-      if (this.dragClickPointer == null || e.detail === 0 || (e.pointerId != null && e.pointerId !== this.dragClickPointer)) return;
-      this.dragClickPointer = null;
+      const ignored = this.suppressedCardClick;
+      if (!ignored || e.detail === 0) return;
+      const samePointer = e.pointerId == null || e.pointerId === ignored.pointer;
+      // WebKit can deliver a compatibility mouse click with a different pointer ID.
+      if (!samePointer && !ignored.card?.contains(e.target)) return;
+      this.suppressedCardClick = null;
       e.preventDefault();
       e.stopImmediatePropagation();
     }, true);
@@ -2426,7 +2407,7 @@ class Game {
       if (!this.cardDragCurrent(d)) { this.cancelCardDrag(); return; }
       const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
       if (!d.moved) {
-        if (Math.hypot(dx, dy) <= 6) return;
+        if (Math.hypot(dx, dy) <= CARD_DRAG_THRESHOLD) return;
         const matrix = new DOMMatrixReadOnly(getComputedStyle(d.c.el).transform);
         d.ox = matrix.m41; d.oy = matrix.m42; d.angle = Math.atan2(matrix.m12, matrix.m11);
         d.moved = true;
@@ -2446,9 +2427,18 @@ class Game {
     });
     window.addEventListener('pointerup', (e) => {
       const d = this.drag; if (!d || d.pointer !== e.pointerId) return;
-      const zone = d.moved && this.cardDragCurrent(d) ? this.cardDropTarget(d.zones, e.clientX, e.clientY) : null;
+      const current = this.cardDragCurrent(d);
+      const zone = d.moved && current ? this.cardDropTarget(d.zones, e.clientX, e.clientY) : null;
       this.clearCardDrag();
-      if (!d.moved) return;
+      if (!d.moved) {
+        // A touch browser can suppress the click immediately following a drag.
+        const touchTap = e.pointerType === 'touch' && Math.hypot(e.clientX - d.sx, e.clientY - d.sy) <= CARD_DRAG_THRESHOLD;
+        if (current && d.mode === 'swap' && touchTap) {
+          this.suppressedCardClick = { pointer: d.pointer, card: d.c.el };
+          this.onTarget({ k: 'slot', p: d.loc.p, i: d.loc.i });
+        }
+        return;
+      }
       if (zone && d.mode === 'swap') this.finishSwap(d.loc, zone.target);
       else if (zone) this.onTarget(zone.target);
       this.layout();
@@ -2466,7 +2456,7 @@ class Game {
     const d = this.drag;
     this.drag = null;
     if (!d?.moved) return;
-    this.dragClickPointer = d.pointer;
+    this.suppressedCardClick = { pointer: d.pointer };
     d.c.drag = false;
     d.c.el.classList.remove('dragging');
     d.zones.forEach(({ el }) => el.classList.remove('drop-zone', 'drag-over'));
@@ -2627,6 +2617,7 @@ class Game {
     this.resetSettingsPreview?.();
     preview.replaceChildren();
     for (const [pref, title, labels, styles] of [
+      ['themeMode', U.themeTitle, U.themeModes, THEME_MODES],
       ['hl', U.hlTitle, U.highlights, HIGHLIGHTS],
       ['back', U.backTitle, U.backs, Object.keys(U.backs)],
       ['lang', U.languageTitle, LANGUAGE_LABELS, LANGUAGE_CODES],
@@ -2682,6 +2673,10 @@ class Game {
       buttons.forEach(button => {
         button.onclick = () => {
           const value = button.dataset.v;
+          if (pref === 'themeMode') {
+            this.setTheme(value);
+            return;
+          }
           if (pref === 'lang') {
             syncChoice(value);
             this.setLanguage(value, indicator);
@@ -2692,6 +2687,7 @@ class Game {
           syncChoice();
         };
       });
+      if (pref === 'themeMode') this.syncThemeChoice = syncChoice;
       syncChoice();
       display.appendChild(row);
       if (languageControls) {
