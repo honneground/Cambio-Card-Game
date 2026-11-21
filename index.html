@@ -522,21 +522,21 @@ html[data-hl="inner"] .btn.hl::before {
       transparent calc(var(--sheen-position) + 100%)),
     radial-gradient(120% 90% at 25% 0%, color-mix(in srgb, var(--hc) 13%, transparent), transparent 72%);
   box-shadow: inset 0 0 16px color-mix(in srgb, var(--hc) 16%, transparent);
-  animation: var(--sheen-animation, innerflow) 4.2s linear infinite;
+  animation: var(--sheen-animation, innerflow) 3.2s linear infinite;
 }
 html[data-hl="inner"] .pc:where(:not([data-hl]))::after, .pc[data-hl="inner"]::after { border-radius: var(--rc); }
 html[data-hl="inner"] .btn.hl { isolation: isolate; }
 html[data-hl="inner"] .btn.hl::before { border-radius: inherit; z-index: -1; }
 .pc:where(:not([data-hl="inner"])):is(.slap, .sel)::after { animation-duration: 1.3s !important; }
 html:not([data-hl="inner"]) .pc:where(:not([data-hl])):is(.slap, .sel)::after { animation-duration: 1.3s !important; }
-html[data-hl="inner"] .pc:where(:not([data-hl])).slap::after, .pc[data-hl="inner"].slap::after { animation-duration: 2s !important; }
-html[data-hl="inner"] .pc:where(:not([data-hl])).sel::after, .pc[data-hl="inner"].sel::after { animation-duration: 2.9s !important; }
+html[data-hl="inner"] .pc:where(:not([data-hl])).slap::after, .pc[data-hl="inner"].slap::after { animation-duration: 1.6s !important; }
+html[data-hl="inner"] .pc:where(:not([data-hl])).sel::after, .pc[data-hl="inner"].sel::after { animation-duration: 2.2s !important; }
 /* Cards without a known match use a dimmer, slower highlight during a slap window. */
 .pc.dim::after { --hc: var(--on-surface-variant); --hl-tip: var(--on-surface-variant); --breath-high: .45; --outline-low: .08; --sheen-opacity: .4; }
 html[data-hl="flow"] .pc.dim::after { opacity: .38; animation-duration: 4.2s; }
 html[data-hl="glow"] .pc.dim::after { animation-name: ringdim; animation-duration: 3s; }
 html[data-hl="outline"] .pc.dim::after { animation-duration: 3.6s; }
-html[data-hl="inner"] .pc:where(:not([data-hl])).dim::after, .pc[data-hl="inner"].dim::after { animation-duration: 5.8s; }
+html[data-hl="inner"] .pc:where(:not([data-hl])).dim::after, .pc[data-hl="inner"].dim::after { animation-duration: 4.4s; }
 @keyframes outlinebreath { 0%, 100% { opacity: var(--outline-low, .16); } 50% { opacity: var(--breath-high, 1); } }
 @keyframes innerflow {
   /* Advancing one full repeat keeps the loop continuous. */
@@ -662,19 +662,8 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 .settings-language-controls > .seg { grid-area: 1 / 1; }
 .settings-language-controls:not(.menu-mode) .settings-language-picker,
 .settings-language-controls.menu-mode .language-options { visibility: hidden; }
-.language-options { overflow: hidden; }
-.language-options .ind { display: none; }
-.settings-options.language-options button {
-  flex: 1 0 auto; min-inline-size: max-content; padding-inline: 6px; white-space: nowrap;
-  background: color-mix(in srgb, var(--on-surface) 6%, transparent);
-}
-.language-options button.on {
-  background: var(--sel-bg); color: var(--sel-fg);
-  box-shadow: 0 1px 4px rgba(0,0,0,.2);
-}
-.language-options button:is(:hover, :focus-visible):not(.on) {
-  background: color-mix(in srgb, var(--primary) 14%, transparent);
-}
+.settings-language-controls.menu-mode .language-options { overflow: hidden; }
+.language-options button > span { inline-size: max-content; white-space: nowrap; }
 .seg.settings-language-picker { margin-top: 6px; padding: 0; }
 .settings-language-picker select {
   display: block; appearance: none; width: 100%; min-height: 44px; padding: 8px 36px 8px 14px;
@@ -2656,8 +2645,12 @@ class Game {
         button.type = 'button';
         button.dataset.pref = pref;
         button.dataset.v = value;
-        button.textContent = labels[value];
-        if (pref === 'lang') button.lang = T[value].tag;
+        if (pref === 'lang') {
+          button.lang = T[value].tag;
+          const label = document.createElement('span');
+          label.textContent = labels[value];
+          button.appendChild(label);
+        } else button.textContent = labels[value];
         return button;
       });
       group.append(...buttons);
@@ -2694,14 +2687,19 @@ class Game {
         const select = languageControls.querySelector('select');
         const updateFit = () => {
           const focus = document.activeElement;
-          const menu = group.scrollWidth > group.clientWidth;
+          const menu = buttons.some(button => {
+            const style = getComputedStyle(button);
+            const available = parseFloat(style.inlineSize) - parseFloat(style.paddingInlineStart) - parseFloat(style.paddingInlineEnd);
+            return parseFloat(getComputedStyle(button.firstElementChild).inlineSize) > available;
+          });
           languageControls.classList.toggle('menu-mode', menu);
           if (menu && group.contains(focus)) select.focus({ preventScroll: true });
           else if (!menu && focus === select) group.querySelector('.on')?.focus({ preventScroll: true });
         };
         updateFit();
         this.settingsLanguageFit = new ResizeObserver(updateFit);
-        for (const element of [group, ...buttons]) this.settingsLanguageFit.observe(element);
+        this.settingsLanguageFit.observe(group);
+        for (const button of buttons) this.settingsLanguageFit.observe(button.firstElementChild);
       }
     }
     this.bindSettingsPreview(display, preview);
