@@ -647,6 +647,9 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 .rule-row + .rule-row, #setRules .settings-choice + .rule-row { border-top: 1px solid var(--settings-divider); }
 .rule-row small { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; color: var(--on-surface-variant); }
 .rule-row .switch { position: relative; margin: 0; flex: none; }
+#setGameplay .rule-row[hidden] { display: none; }
+#setGameplay .switch:has(input:disabled) { cursor: default; }
+#setGameplay input:disabled + .track { opacity: .45; }
 .username-input {
   min-width: 0; width: min(46%, 180px); padding: 9px 10px; border: 1px solid var(--outline-variant);
   border-radius: 10px; background: var(--surface); color: var(--on-surface); font: inherit; user-select: text;
@@ -947,6 +950,10 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
       <h3 class="settings-heading" id="setDisplayTitle"></h3>
       <div class="settings-group" id="setList"></div>
     </section>
+    <section class="settings-section" aria-labelledby="setGameplayTitle">
+      <h3 class="settings-heading" id="setGameplayTitle"></h3>
+      <div class="settings-group" id="setGameplay"></div>
+    </section>
     <section class="settings-section" aria-labelledby="setRulesTitle">
       <h3 class="settings-heading" id="setRulesTitle"></h3>
       <div class="settings-group" id="setRules"></div>
@@ -1013,6 +1020,12 @@ const LOCALES = {
       hlTitle: 'Selection highlight',
       highlights: { glow: 'Shining glow', outline: 'Breathing outline', flow: 'Edge flow', inner: 'Inner glow' },
       autoSkipMatchTitle: 'Auto-skip matching', autoSkipMatchDesc: 'With Memory Assist on, skip your match window if no known card matches.',
+      gameplaySection: 'Gameplay', gameplay: {
+        assistDesc: 'Mark remembered cards and highlight known matches.',
+        who: ['Insight assist', 'Show which opponents know each card.'],
+        god: ['Omniscient view', 'Reveal all cards on the table.'],
+        confirmKnownMatchSkip: ['Confirm skipping a known match', 'With Memory Assist on, press Skip or Space twice to pass when a known card matches.'],
+      },
       configSection: 'Configuration', resetSettings: 'Restore default settings', resetAction: 'Restore', resetDesc: 'Reset app preferences and use the default rules next match.',
       username: 'Username', usernameDesc: 'Leave blank to display “You”.',
       devTitle: 'Disable developer mode', devDesc: 'Hides the Omniscient view button that reveals every card',
@@ -1032,6 +1045,7 @@ const LOCALES = {
       roundLbl: (r, R) => `Round ${r} / ${R}`,
       assist: 'Memory assist', start: 'Start match', monkey: 'Monkey!', skip: 'Skip match', skipSkill: 'Skip skill', logTitle: 'Log', again: 'Play again', close: 'Close',
       shortcutLead: 'Press',
+      confirmSkipMatch: 'Confirm skip', shortcutConfirmSkip: 'again to skip match',
       shortcutActions: { btnReady: 'to start the round', btnMonkey: 'to call Monkey!', btnSkip: 'to skip match', btnSkipSkill: 'to skip the skill', btnShowResult: 'to show results', btnPause: 'to resume', deckEl: 'to draw a card' },
       rulesTitle: 'How to play', rank: 'Rank', player: 'Player', cards: 'Cards', score: 'Score',
       overSub: 'The lowest round score wins.',
@@ -1109,6 +1123,12 @@ const LOCALES = {
     hlTitle: 'Resaltado de selección',
     highlights: { glow: 'Brillo resplandor', outline: 'Contorno vivo', flow: 'Flujo de borde', inner: 'Brillo interior' },
     autoSkipMatchTitle: 'Omitir emparejamiento automáticamente', autoSkipMatchDesc: 'Con la ayuda de memoria activada, omite tu oportunidad de emparejar si ninguna carta conocida coincide.',
+    gameplaySection: 'Jugabilidad', gameplay: {
+      assistDesc: 'Marca las cartas que recuerdas y resalta las parejas que conoces.',
+      who: ['Visión rival', 'Muestra qué oponentes conocen cada carta.'],
+      god: ['Vista omnisciente', 'Revela todas las cartas de la mesa.'],
+      confirmKnownMatchSkip: ['Confirmar antes de omitir una pareja conocida', 'Con la ayuda de memoria activada, pulsa dos veces Omitir o la barra espaciadora si conoces una carta que coincide.'],
+    },
     configSection: 'Configuración', resetSettings: 'Restablecer ajustes', resetAction: 'Restablecer', resetDesc: 'Restablece las preferencias y las reglas por defecto para la próxima partida.',
     username: 'Nombre de usuario', usernameDesc: 'Deja en blanco para mostrar "Tú".',
     devTitle: 'Desactivar modo desarrollador', devDesc: 'Oculta el botón de vista omnisciente que revela todas las cartas',
@@ -1126,6 +1146,7 @@ const LOCALES = {
     roundLbl: (r, R) => `Ronda ${r} / ${R}`,
     assist: 'Asistente de memoria', start: 'Comenzar partida', monkey: '¡Monkey!', skip: 'Pasar pareja', skipSkill: 'Pasar habilidad', logTitle: 'Registro', again: 'Jugar de nuevo', close: 'Cerrar',
     shortcutLead: 'Pulsa',
+    confirmSkipMatch: 'Confirmar salto', shortcutConfirmSkip: 'otra vez para pasar pareja',
     shortcutActions: { btnReady: 'para comenzar ronda', btnMonkey: 'para cantar Monkey', btnSkip: 'para pasar pareja', btnSkipSkill: 'para pasar habilidad', btnShowResult: 'para ver resultados', btnPause: 'para reanudar', deckEl: 'para robar carta' },
     rulesTitle: 'Cómo jugar', rank: 'Puesto', player: 'Jugador', cards: 'Mano', score: 'Puntos',
     overSub: 'Gana la puntuación más baja de la ronda.',
@@ -1199,6 +1220,12 @@ const LOCALES = {
     hlTitle: 'Surbrillance de sélection',
     highlights: { glow: 'Éclat brillant', outline: 'Contour vivant', flow: 'Flux de bord', inner: 'Lueur intérieure' },
     autoSkipMatchTitle: 'Passer automatiquement l’association', autoSkipMatchDesc: 'Avec l’aide mémoire activée, passez votre tour d’association si aucune carte connue ne correspond.',
+    gameplaySection: 'Jouabilité', gameplay: {
+      assistDesc: 'Marque les cartes mémorisées et met en évidence les associations connues.',
+      who: ['Indices', 'Indique quels adversaires connaissent chaque carte.'],
+      god: ['Vue omnisciente', 'Révèle toutes les cartes sur la table.'],
+      confirmKnownMatchSkip: ['Confirmer avant de passer une association connue', 'Avec l’aide mémoire activée, appuyez deux fois sur Passer ou sur la barre d’espace si une carte connue correspond.'],
+    },
     configSection: 'Configuration', resetSettings: 'Rétablir les paramètres par défaut', resetAction: 'Rétablir', resetDesc: 'Réinitialise les préférences d’affichage et rétablit les règles par défaut pour la prochaine partie.',
     username: 'Nom de joueur', usernameDesc: 'Laisser vide pour afficher "Vous".',
     devTitle: 'Désactiver mode développeur', devDesc: 'Masque le bouton de vue omnisciente qui révèle toutes les cartes',
@@ -1216,6 +1243,7 @@ const LOCALES = {
     roundLbl: (r, R) => `Manche ${r} / ${R}`,
     assist: 'Aide mémoire', start: 'Commencer', monkey: 'Monkey !', skip: 'Passer l’association', skipSkill: 'Passer le pouvoir', logTitle: 'Journal', again: 'Rejouer', close: 'Fermer',
     shortcutLead: 'Appuyez sur',
+    confirmSkipMatch: 'Confirmer le passage', shortcutConfirmSkip: 'de nouveau pour passer l’association',
     shortcutActions: { btnReady: 'pour lancer la manche', btnMonkey: 'pour crier Monkey !', btnSkip: 'pour passer l’association', btnSkipSkill: 'pour passer le pouvoir', btnShowResult: 'pour afficher les résultats', btnPause: 'pour reprendre', deckEl: 'pour piocher' },
     rulesTitle: 'Règles du jeu', rank: 'Rang', player: 'Joueur', cards: 'Cartes', score: 'Points',
     overSub: 'Le score de manche le plus bas l’emporte.',
@@ -1289,6 +1317,12 @@ const LOCALES = {
       hlTitle: '選択ハイライト',
       highlights: { glow: 'シャイン', outline: 'アウトライン', flow: 'エッジフロー', inner: 'インナーグロー' },
       autoSkipMatchTitle: 'ペア捨てを自動スキップ', autoSkipMatchDesc: '記憶アシスト使用中、ペアになると分かっているカードがなければ、自分のペア捨ての機会をスキップします。',
+      gameplaySection: 'ゲームプレイ', gameplay: {
+        assistDesc: '覚えているカードに印を付け、分かっているペアを強調します。',
+        who: ['インサイト', '各カードを知っている相手を表示します。'],
+        god: ['全知視点', 'テーブルのすべてのカードを公開します。'],
+        confirmKnownMatchSkip: ['既知のペアをスキップする前に確認', '記憶アシスト使用中、ペアにできるカードが分かっている場合は、スキップボタンかスペースキーを2回押します。'],
+      },
       configSection: '設定', resetSettings: 'デフォルトに戻す', resetAction: '初期化', resetDesc: '表示設定を初期化し、次回マッチのルールをデフォルトに戻します。',
       username: 'ユーザー名', usernameDesc: '空欄の場合は「あなた」と表示されます。',
       devTitle: '開発者モードを無効化', devDesc: '全カードを開示する「全知視点」ボタンを非表示にします',
@@ -1306,6 +1340,7 @@ const LOCALES = {
       roundLbl: (r, R) => `第 ${r} / ${R} ラウンド`,
       assist: '記憶アシスト', start: 'ゲーム開始', monkey: 'Monkey!', skip: 'スキップ', skipSkill: 'スキルをスキップ', logTitle: '対局ログ', again: 'もう一度プレイ', close: '閉じる',
       shortcutLead: 'キー',
+      confirmSkipMatch: 'スキップを確認', shortcutConfirmSkip: 'もう一度押してスキップ',
       shortcutActions: { btnReady: 'ラウンド開始', btnMonkey: 'Monkey宣言', btnSkip: 'スキップ', btnSkipSkill: 'スキルをスキップ', btnShowResult: '結果を表示', btnPause: '再開', deckEl: 'カードを引く' },
       rulesTitle: 'ルール説明', rank: '順位', player: 'プレイヤー', cards: '手札', score: 'スコア',
       overSub: 'ラウンドスコアが最も低いプレイヤーの勝利。',
@@ -1382,6 +1417,12 @@ const LOCALES = {
     hlTitle: '선택 강조 효과',
     highlights: { glow: '빛나는 광채', outline: '호흡 윤곽', flow: '외곽선 흐름', inner: '내부 은은한 빛' },
     autoSkipMatchTitle: '자동으로 매칭 건너뛰기', autoSkipMatchDesc: '기억 도우미를 켰을 때 일치하는 것으로 확인된 카드가 없으면 내 매칭 기회를 건너뜁니다.',
+    gameplaySection: '게임 플레이', gameplay: {
+      assistDesc: '기억하는 카드를 표시하고 확인된 매칭을 강조합니다.',
+      who: ['상대 정보', '각 카드를 알고 있는 상대를 표시합니다.'],
+      god: ['전지적 시점', '테이블 위의 모든 카드를 공개합니다.'],
+      confirmKnownMatchSkip: ['일치하는 카드가 있을 때 건너뛰기 확인', '기억 도우미가 켜져 있고 일치하는 것으로 확인된 카드가 있으면 건너뛰기 버튼이나 스페이스바를 두 번 눌러야 합니다.'],
+    },
     configSection: '구성', resetSettings: '기본 설정 복원', resetAction: '복원', resetDesc: '화면 설정을 초기화하고 다음 경기의 규칙을 기본값으로 되돌립니다.',
     username: '플레이어 이름', usernameDesc: '비워두면 "나"로 표시됩니다.',
     devTitle: '개발자 모드 끄기', devDesc: '모든 카드를 보는 "전지적 시점" 버튼 숨기기',
@@ -1399,6 +1440,7 @@ const LOCALES = {
     roundLbl: (r, R) => `제 ${r} / ${R} 라운드`,
     assist: '기억 도우미', start: '대결 시작', monkey: 'Monkey!', skip: '매칭 건너뛰기', skipSkill: '스킬 건너뛰기', logTitle: '기록', again: '다시 하기', close: '닫기',
     shortcutLead: '단축키:',
+    confirmSkipMatch: '건너뛰기 확인', shortcutConfirmSkip: '한 번 더 눌러 매칭 건너뛰기',
     shortcutActions: { btnReady: '라운드 시작', btnMonkey: 'Monkey 선언', btnSkip: '매칭 건너뛰기', btnSkipSkill: '스킬 건너뛰기', btnShowResult: '결과 보기', btnPause: '계속하기', deckEl: '카드 뽑기' },
     rulesTitle: '규칙 설명', rank: '순위', player: '플레이어', cards: '손패', score: '점수',
     overSub: '이번 라운드 최저 점수 플레이어가 승리합니다.',
@@ -1472,6 +1514,12 @@ const LOCALES = {
       hlTitle: '选中提示',
       highlights: { glow: '闪耀高光', outline: '呼吸轮廓', flow: '边缘流光', inner: '内映微光' },
       autoSkipMatchTitle: '无已知配对时自动跳过', autoSkipMatchDesc: '开启记忆辅助后，如果没有已知的可配对牌，就自动跳过你的配对机会。',
+      gameplaySection: '玩法', gameplay: {
+        assistDesc: '标记你记得的牌，并突出显示已知的可配对牌。',
+        who: ['知情辅助', '标出哪些对手知道每张牌。'],
+        god: ['全知视角', '翻开桌上所有牌。'],
+        confirmKnownMatchSkip: ['跳过已知配对前确认', '开启记忆辅助后，若有已知的可配对牌，需要按两次「跳过配对」或空格键。'],
+      },
       configSection: '配置', resetSettings: '恢复默认设置', resetAction: '恢复', resetDesc: '重置界面偏好，并为下一局恢复默认规则。',
       username: '用户名', usernameDesc: '留空时显示「你」。',
       devTitle: '关闭开发者模式', devDesc: '隐藏顶栏用于查看所有牌的「全知视角」按钮',
@@ -1489,6 +1537,7 @@ const LOCALES = {
       roundLbl: (r, R) => `第 ${r} / ${R} 场`,
       assist: '记忆辅助', start: '开始对决', monkey: 'Monkey!', skip: '跳过配对', skipSkill: '跳过技能', logTitle: '战报', again: '再来一局', close: '关闭',
       shortcutLead: '按',
+      confirmSkipMatch: '确认跳过', shortcutConfirmSkip: '确认跳过配对',
       shortcutActions: { btnReady: '开始对决', btnMonkey: '喊 Monkey!', btnSkip: '跳过配对', btnSkipSkill: '跳过技能', btnShowResult: '显示结果', btnPause: '继续游戏', deckEl: '抽牌' },
       rulesTitle: '规则说明', rank: '名次', player: '玩家', cards: '手牌', score: '总分',
       overSub: '本场分数最低者获胜。',
@@ -1566,6 +1615,12 @@ const LOCALES = {
       hlTitle: '選中提示',
       highlights: { glow: '閃耀高光', outline: '呼吸輪廓', flow: '邊緣流光', inner: '內映微光' },
       autoSkipMatchTitle: '無已知配對時自動跳過', autoSkipMatchDesc: '開啟記憶輔助後，如果沒有已知的可配對牌，就自動跳過你的配對機會。',
+      gameplaySection: '玩法', gameplay: {
+        assistDesc: '標記你記得的牌，並突顯已知的可配對牌。',
+        who: ['知情輔助', '標出哪些對手知道每張牌。'],
+        god: ['全知視角', '翻開桌上所有牌。'],
+        confirmKnownMatchSkip: ['跳過已知配對前確認', '開啟記憶輔助後，若有已知的可配對牌，需要按兩次「跳過配對」或空白鍵。'],
+      },
       configSection: '配置', resetSettings: '恢復預設設定', resetAction: '恢復', resetDesc: '重置介面偏好，並為下一局恢復預設規則。',
       username: '使用者名稱', usernameDesc: '留空時顯示「你」。',
       devTitle: '關閉開發者模式', devDesc: '隱藏頂欄用於檢視所有牌的「全知視角」按鈕',
@@ -1583,6 +1638,7 @@ const LOCALES = {
       roundLbl: (r, R) => `第 ${r} / ${R} 場`,
       assist: '記憶輔助', start: '開始對決', monkey: 'Monkey!', skip: '跳過配對', skipSkill: '跳過技能', logTitle: '戰報', again: '再來一局', close: '關閉',
       shortcutLead: '按',
+      confirmSkipMatch: '確認跳過', shortcutConfirmSkip: '確認跳過配對',
       shortcutActions: { btnReady: '開始對決', btnMonkey: '喊 Monkey!', btnSkip: '跳過配對', btnSkipSkill: '跳過技能', btnShowResult: '顯示結果', btnPause: '繼續遊戲', deckEl: '抽牌' },
       rulesTitle: '規則說明', rank: '名次', player: '玩家', cards: '手牌', score: '總分',
       overSub: '本場分數最低者獲勝。',
@@ -1713,7 +1769,9 @@ const CANCEL = Symbol('cancel');
 const HIGHLIGHTS = ['glow', 'outline', 'flow', 'inner'];
 const ROUND_COUNTS = [1, 4, 8];
 const THEME_MODES = ['light', 'system', 'dark'];
-const PREFERENCE_KEYS = ['rounds', 'hl', 'back', 'rules', 'theme', 'assist', 'autoSkipMatch', 'who', 'sound', 'dev'];
+const MATCH_ASSIST_OPTIONS = ['autoSkipMatch', 'confirmKnownMatchSkip'];
+const GAMEPLAY_OPTIONS = ['assist', 'who', 'god', ...MATCH_ASSIST_OPTIONS];
+const PREFERENCE_KEYS = ['rounds', 'hl', 'back', 'rules', 'theme', ...GAMEPLAY_OPTIONS, 'sound', 'dev'];
 const USERNAME_LIMIT = 24;
 const CORE_RULES = Object.freeze({ skills: true, penalty: true, slapPenalty: true, takeDiscard: true });
 const RULE_DEFAULTS = Object.freeze({
@@ -1817,11 +1875,37 @@ class Game {
     const theme = read('theme');
     this.themeMode = THEME_MODES.includes(theme) ? theme : 'system';
     this.assist = read('assist') !== '0';
-    this.autoSkipMatch = read('autoSkipMatch') !== '0';
+    this.autoSkipMatch = this.assist && read('autoSkipMatch') !== '0';
+    this.confirmKnownMatchSkip = this.assist && read('confirmKnownMatchSkip') === '1';
     this.who = read('who') === '1';
     sound.on = read('sound') !== '0';
     this.dev = read('dev') === '1';
-    this.god = false;
+    this.god = this.dev && read('god') === '1';
+  }
+  setGameplayOption(key, value) {
+    if (!GAMEPLAY_OPTIONS.includes(key)) return;
+    const enabled = Boolean(value) && (!MATCH_ASSIST_OPTIONS.includes(key) || this.assist) && (key !== 'god' || this.dev);
+    this[key] = enabled;
+    this.write(`monkey-${key}`, enabled ? '1' : '0');
+    if (key === 'assist') {
+      for (const option of MATCH_ASSIST_OPTIONS) {
+        if (!enabled) this[option] = false;
+        this.write(`monkey-${option}`, this[option] ? '1' : '0');
+      }
+    }
+    if (!this.confirmKnownMatchSkip) this.armedMatchSkip = null;
+    this.syncGameplayControls();
+    if (key === 'god') this.layout();
+    else this.refresh();
+  }
+  syncGameplayControls() {
+    for (const [id, key] of [['btnAssist', 'assist'], ['btnWho', 'who']]) {
+      const button = document.getElementById(id);
+      button.classList.toggle('toggled', this[key]);
+      button.setAttribute('aria-pressed', this[key]);
+    }
+    this.renderXray();
+    this.syncGameplaySettings();
   }
   resetPreferences() {
     const currentLang = this.lang;
@@ -1829,8 +1913,7 @@ class Game {
     this.loadPreferences(() => null);
     this.lang = currentLang;
     if (!this.match) this.ar = { ...this.rules, ...CORE_RULES };
-    document.getElementById('btnAssist').classList.toggle('toggled', this.assist);
-    document.getElementById('btnWho').classList.toggle('toggled', this.who);
+    this.armedMatchSkip = null;
     this.applyTheme();
     this.applyLang();
     this.layout();
@@ -1925,7 +2008,10 @@ class Game {
   setPaused(v) {
     if (this.paused === v) return;
     this.paused = v;
-    if (v) this.cancelCardDrag();
+    if (v) {
+      this.armedMatchSkip = null;
+      this.cancelCardDrag();
+    }
     const now = performance.now();
     this.timers.forEach(t => { if (v) { clearTimeout(t.id); t.remaining = Math.max(0, t.remaining - (now - t.start)); } else this.arm(t); });
     this.el.stage.classList.toggle('paused', v);
@@ -1937,6 +2023,7 @@ class Game {
     this.persistMatch();
   }
   cancelAll() {
+    this.armedMatchSkip = null;
     this.cancelCardDrag();
     this.timers.forEach(t => { clearTimeout(t.id); t.reject(CANCEL); });
     this.timers.clear();
@@ -2012,7 +2099,7 @@ class Game {
     set('btnView', u.viewBoard); set('btnShowResult', u.showResult);
     this.el.ready.textContent = u.start; this.el.monkey.textContent = u.monkey; this.el.skip.textContent = u.skip; this.el.skipSkill.textContent = u.skipSkill;
     document.getElementById('rulesBody').innerHTML = u.rules;
-    this.renderNames(); this.renderHud(); this.renderLog(); this.renderXray();
+    this.renderNames(); this.renderHud(); this.renderLog(); this.syncGameplayControls();
     this.renderSkillToast();
     if (this.overData) this.renderOver();
     this.refresh();
@@ -2063,7 +2150,8 @@ class Game {
       row.hidden = !action;
       lead.textContent = action ? `${U.shortcutLead} ` : '';
       key.textContent = action ? U.keyLabels[keys[i]] : '';
-      instruction.textContent = action ? ` ${U.shortcutActions[action.id]}` : '';
+      const copy = action === this.el.skip && this.matchSkipArmed() ? U.shortcutConfirmSkip : U.shortcutActions[action?.id];
+      instruction.textContent = copy ? ` ${copy}` : '';
     });
   }
   renderXray() {
@@ -2264,8 +2352,6 @@ class Game {
       languageMenu.appendChild(option);
     }
     this.bindDropdown(languageTrigger, languageMenu);
-    id('btnAssist').classList.toggle('toggled', this.assist);
-    id('btnWho').classList.toggle('toggled', this.who);
     this.el.themeIcon.innerHTML = `<path class="theme-sun" d="${ICON.sun}"/><path class="theme-moon" d="${ICON.moon}"/>`;
     id('btnTheme').onclick = () => this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
     this.systemTheme.addEventListener('change', () => { if (this.themeMode === 'system') this.applyTheme(); });
@@ -2309,12 +2395,7 @@ class Game {
       this.persistMatch();
     };
     id('logHead').onkeydown = e => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); };
-    id('btnAssist').onclick = (e) => {
-      this.assist = !this.assist;
-      this.write('monkey-assist', this.assist ? '1' : '0');
-      e.currentTarget.classList.toggle('toggled', this.assist);
-      this.refresh();
-    };
+    id('btnAssist').onclick = () => this.setGameplayOption('assist', !this.assist);
     this.el.ready.onclick = () => this.onTarget({ k: 'ready' });
     this.el.monkey.onclick = () => this.onTarget({ k: 'monkey' });
     this.el.skip.onclick = () => this.onTarget({ k: 'skip' });
@@ -2331,6 +2412,10 @@ class Game {
         return;
       }
       if ((e.key !== ' ' && e.key !== 'Enter') || e.shiftKey) return;
+      if (e.repeat && focused === this.el.skip) {
+        e.preventDefault();
+        return;
+      }
       if (focused.matches('.tools button[aria-expanded], #btnTheme')) return;
       const key = e.key === ' ' ? 'Space' : e.key;
       const action = this.activeRoundAction(key);
@@ -2361,13 +2446,8 @@ class Game {
       const hide = () => { clearTimeout(ttTimer); tt.classList.remove('show'); };
       b.addEventListener('mouseleave', hide); b.addEventListener('click', hide);
     });
-    id('btnWho').onclick = (e) => {
-      this.who = !this.who;
-      this.write('monkey-who', this.who ? '1' : '0');
-      e.currentTarget.classList.toggle('toggled', this.who);
-      this.refresh();
-    };
-    this.el.xray.onclick = () => { this.god = !this.god; this.renderXray(); this.layout(); };
+    id('btnWho').onclick = () => this.setGameplayOption('who', !this.who);
+    this.el.xray.onclick = () => this.setGameplayOption('god', !this.god);
 
     this.bindCards();
   }
@@ -2534,6 +2614,12 @@ class Game {
     if (!this.prompt) {
       const S = this.slap; if (!S) return;
       if (t.k === 'skip' && this.humanSlapOpen() && !S.compensation) {
+        if (this.assist && this.confirmKnownMatchSkip && !this.matchSkipArmed() && this.hasKnownSlapMatch()) {
+          this.armedMatchSkip = S;
+          this.refresh();
+          return;
+        }
+        this.armedMatchSkip = null;
         S.skipped = true;
         this.checkpoint('slap', { slap: S });
         this.refresh();
@@ -2607,17 +2693,27 @@ class Game {
     else this.openSetup();
     this.renderShortcutHint();
   }
+  syncGameplaySettings() {
+    for (const input of document.querySelectorAll('#setGameplay input[data-gameplay]')) {
+      const key = input.dataset.gameplay;
+      input.checked = Boolean(this[key]);
+      input.disabled = !this.assist && MATCH_ASSIST_OPTIONS.includes(key);
+      if (key === 'god') input.closest('.rule-row').hidden = !this.dev;
+    }
+  }
   renderSettings() {
     const U = T[this.lang].ui, display = document.getElementById('setList');
-    const rules = document.getElementById('setRules'), developer = document.getElementById('setDeveloper');
+    const gameplay = document.getElementById('setGameplay'), rules = document.getElementById('setRules'), developer = document.getElementById('setDeveloper');
     document.getElementById('setTitle').textContent = U.settingsTitle;
     document.getElementById('setDisplayTitle').textContent = U.displaySection;
+    document.getElementById('setGameplayTitle').textContent = U.gameplaySection;
     document.getElementById('setRulesTitle').textContent = U.ruleSection;
     document.getElementById('setDeveloperTitle').textContent = U.configSection;
     document.getElementById('setClose').textContent = U.close;
     this.renderRulesNote();
     this.settingsLanguageFit?.disconnect();
     display.replaceChildren();
+    gameplay.replaceChildren();
     rules.replaceChildren();
     const preview = document.getElementById('setPreview');
     this.resetSettingsPreview?.();
@@ -2719,16 +2815,23 @@ class Game {
         for (const button of buttons) this.settingsLanguageFit.observe(button.firstElementChild);
       }
     }
-    const autoSkip = document.createElement('label');
-    autoSkip.className = 'settings-choice rule-row';
-    autoSkip.innerHTML = `<span><span id="setAutoSkipMatchTitle">${U.autoSkipMatchTitle}</span><small id="setAutoSkipMatchDesc">${U.autoSkipMatchDesc}</small></span>
-      <span class="switch"><input type="checkbox" role="switch" aria-labelledby="setAutoSkipMatchTitle" aria-describedby="setAutoSkipMatchDesc"${this.autoSkipMatch ? ' checked' : ''}><span class="track"><span class="thumb"></span></span></span>`;
-    autoSkip.querySelector('input').onchange = ({ target }) => {
-      this.autoSkipMatch = target.checked;
-      this.write('monkey-autoSkipMatch', this.autoSkipMatch ? '1' : '0');
-    };
-    display.appendChild(autoSkip);
     this.bindSettingsPreview(display, preview);
+    for (const [key, title, desc] of [
+      ['assist', U.assist, U.gameplay.assistDesc],
+      ['who', ...U.gameplay.who],
+      ['god', ...U.gameplay.god],
+      ['autoSkipMatch', U.autoSkipMatchTitle, U.autoSkipMatchDesc],
+      ['confirmKnownMatchSkip', ...U.gameplay.confirmKnownMatchSkip],
+    ]) {
+      const row = document.createElement('label');
+      row.className = 'rule-row';
+      const id = `set${key[0].toUpperCase()}${key.slice(1)}`;
+      row.innerHTML = `<span><span id="${id}Title">${title}</span><small id="${id}Desc">${desc}</small></span>
+        <span class="switch"><input type="checkbox" role="switch" data-gameplay="${key}" aria-labelledby="${id}Title" aria-describedby="${id}Desc"><span class="track"><span class="thumb"></span></span></span>`;
+      row.querySelector('input').onchange = ({ target }) => this.setGameplayOption(key, target.checked);
+      gameplay.appendChild(row);
+    }
+    this.syncGameplaySettings();
     const rounds = document.createElement('div');
     rounds.className = 'settings-choice';
     rounds.innerHTML = `<span id="setRoundsLabel">${U.matchRounds}</span><div class="seg settings-options" id="setRoundSeg" style="--n:${ROUND_COUNTS.length}" role="group" aria-labelledby="setRoundsLabel"></div>`;
@@ -2765,8 +2868,8 @@ class Game {
     dev.innerHTML = `<span>${U.devTitle}<small>${U.devDesc}</small></span><span class="switch"><input type="checkbox"${!this.dev ? ' checked' : ''}><span class="track"><span class="thumb"></span></span></span>`;
     dev.querySelector('input').onchange = (e) => {
       this.dev = !e.target.checked; this.write('monkey-dev', this.dev ? '1' : '0');
-      if (!this.dev) { this.god = false; this.layout(); }
-      this.renderXray();
+      if (!this.dev) this.setGameplayOption('god', false);
+      else this.syncGameplayControls();
     };
     const resetRow = document.createElement('div');
     resetRow.className = 'rule-row';
@@ -3198,6 +3301,9 @@ class Game {
     this.el.skipSkill.classList.toggle('show', mode === 'peek' || mode === 'spy' || mode === 'swap');
     this.el.monkey.classList.toggle('show', mode === 'turn' && this.caller === null);
     this.el.skip.classList.toggle('show', !!(humanWindow && !S.compensation));
+    const U = T[this.lang].ui;
+    const skipLabel = this.matchSkipArmed() ? U.confirmSkipMatch : U.skip;
+    if (this.el.skip.textContent !== skipLabel) this.el.skip.textContent = skipLabel;
     this.renderShortcutHint();
     this.players.forEach((p, i) => this.seatEls[i].classList.toggle('active', this.turn === i && this.phase === 'play'));
     if (this.el.toast.classList.contains('show')) this.positionSkillToast();
@@ -3631,6 +3737,9 @@ class Game {
     const S = this.slap;
     return !!(S && S.phase === 'human' && !S.humanLocked && !S.skipped && !S.closed && S.t < S.humanMs);
   }
+  matchSkipArmed() {
+    return !!this.slap && this.armedMatchSkip === this.slap;
+  }
   hasKnownSlapMatch(top = this.discard.at(-1)) {
     if (!top) return false;
     const canSlapOpponent = this.canSlapOpponent(0);
@@ -3696,6 +3805,7 @@ class Game {
       }
     } finally {
       if (this.slap === S) {
+        this.armedMatchSkip = null;
         this.slap = null; this.el.slapBar.classList.remove('on'); this.refresh();
       }
     }
@@ -3727,6 +3837,7 @@ class Game {
     if (owner !== pi && !this.canSlapOpponent(pi)) return;
     const c = this.players[owner].slots[i], top = this.discard.at(-1);
     if (!c || c.up || !top) return;
+    if (pi === 0) this.armedMatchSkip = null;
     S.busy = true;
     if (c.rank !== top.rank) {
       if (pi === 0) S.humanLocked = true;
