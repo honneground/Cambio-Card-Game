@@ -1076,6 +1076,7 @@ const LOCALES = {
       spyMe: (a, n) => `${n(a.p)} peeked at ${n(a.q)}'s card ${a.i}: ${a.c}`,
       spyAi: (a, n) => `${n(a.p)} peeked at ${n(a.q)}'s card ${a.i}`,
       swap: (a, n) => `${n(a.p)} swapped their card ${a.i} with ${n(a.q)}'s card ${a.j}`,
+      swapSkip: (a, n) => `${n(a.p)} skipped the blind swap`,
       slapOk: (a, n) => `${n(a.p)} matched card ${a.i} (${a.c})`,
       slapOpponent: (a, n) => `${n(a.p)} matched and discarded ${n(a.q)}’s card ${a.i} (${a.c})`,
       slapCompensation: (a, n) => `${n(a.p)} gave ${n(a.q)} a face-down replacement`,
@@ -1164,6 +1165,7 @@ const LOCALES = {
     spyMe: (a, n) => `${n(a.p)} miró la carta ${a.i} de ${n(a.q)}: ${a.c}`,
     spyAi: (a, n) => `${n(a.p)} miró la carta ${a.i} de ${n(a.q)}`,
     swap: (a, n) => `${n(a.p)} intercambió su carta ${a.i} con la carta ${a.j} de ${n(a.q)}`,
+    swapSkip: (a, n) => `${n(a.p)} omitió el intercambio a ciegas`,
     slapOk: (a, n) => `${n(a.p)} emparejó con éxito la carta ${a.i} (${a.c})`,
     slapOpponent: (a, n) => `${n(a.p)} emparejó y descartó la carta ${a.i} (${a.c}) de ${n(a.q)}`,
     slapCompensation: (a, n) => `${n(a.p)} le dio a ${n(a.q)} una carta boca abajo`,
@@ -1252,6 +1254,7 @@ const LOCALES = {
     spyMe: (a, n) => `${n(a.p)} a regardé la carte ${a.i} de ${n(a.q)} : ${a.c}`,
     spyAi: (a, n) => `${n(a.p)} a regardé la carte ${a.i} de ${n(a.q)}`,
     swap: (a, n) => `${n(a.p)} a échangé sa carte ${a.i} avec la carte ${a.j} de ${n(a.q)}`,
+    swapSkip: (a, n) => `${n(a.p)} a renoncé à l’échange aveugle`,
     slapOk: (a, n) => `${n(a.p)} a associé sa carte ${a.i} (${a.c}) avec succès`,
     slapOpponent: (a, n) => `${n(a.p)} a associé et défaussé la carte ${a.i} (${a.c}) de ${n(a.q)}`,
     slapCompensation: (a, n) => `${n(a.p)} a donné une carte cachée à ${n(a.q)}`,
@@ -1343,6 +1346,7 @@ const LOCALES = {
       spyMe: (a, n) => `${n(a.p)}が${n(a.q)}の${a.i}枚目を確認：${a.c}`,
       spyAi: (a, n) => `${n(a.p)}が${n(a.q)}の${a.i}枚目を確認しました`,
       swap: (a, n) => `${n(a.p)}が自分の${a.i}枚目と${n(a.q)}の${a.j}枚目を交換しました`,
+      swapSkip: (a, n) => `${n(a.p)}がブラインドスワップをスキップしました`,
       slapOk: (a, n) => `${n(a.p)}がペア捨て成功：${a.i}枚目 ${a.c}`,
       slapOpponent: (a, n) => `${n(a.p)}が${n(a.q)}の${a.i}枚目 ${a.c}をペア捨てしました`,
       slapCompensation: (a, n) => `${n(a.p)}が${n(a.q)}に伏せカードを1枚渡しました`,
@@ -1431,6 +1435,7 @@ const LOCALES = {
     spyMe: (a, n) => `${n(a.p)} 님이 ${n(a.q)}의 ${a.i}번째 카드 확인: ${a.c}`,
     spyAi: (a, n) => `${n(a.p)} 님이 ${n(a.q)}의 ${a.i}번째 카드를 확인했습니다`,
     swap: (a, n) => `${n(a.p)} 님이 자신의 ${a.i}번째 카드와 ${n(a.q)}의 ${a.j}번째 카드를 맞교환했습니다`,
+    swapSkip: (a, n) => `${n(a.p)} 님이 블라인드 교환을 건너뛰었습니다`,
     slapOk: (a, n) => `${n(a.p)} 님이 매칭 성공: ${a.i}번째 카드 ${a.c}`,
     slapOpponent: (a, n) => `${n(a.p)} 님이 ${n(a.q)}의 ${a.i}번째 카드 ${a.c}를 매칭하여 버렸습니다`,
     slapCompensation: (a, n) => `${n(a.p)} 님이 ${n(a.q)}에게 뒷면 카드를 1장 넘겼습니다`,
@@ -1523,6 +1528,7 @@ const LOCALES = {
       spyMe: (a, n) => `${n(a.p)}查看了${n(a.q)}的第 ${a.i} 张牌：${a.c}`,
       spyAi: (a, n) => `${n(a.p)}查看了${n(a.q)}的第 ${a.i} 张牌`,
       swap: (a, n) => `${n(a.p)}把自己的第 ${a.i} 张牌与${n(a.q)}的第 ${a.j} 张牌互换`,
+      swapSkip: (a, n) => `${n(a.p)}跳过了盲换`,
       slapOk: (a, n) => `${n(a.p)}配对成功：第 ${a.i} 张牌 ${a.c}`,
       slapOpponent: (a, n) => `${n(a.p)}配对弃掉了${n(a.q)}的第 ${a.i} 张牌 ${a.c}`,
       slapCompensation: (a, n) => `${n(a.p)}给${n(a.q)}补了一张暗牌`,
@@ -1615,6 +1621,7 @@ const LOCALES = {
       spyMe: (a, n) => `${n(a.p)}檢視了${n(a.q)}的第 ${a.i} 張牌：${a.c}`,
       spyAi: (a, n) => `${n(a.p)}檢視了${n(a.q)}的第 ${a.i} 張牌`,
       swap: (a, n) => `${n(a.p)}把自己的第 ${a.i} 張牌與${n(a.q)}的第 ${a.j} 張牌互換`,
+      swapSkip: (a, n) => `${n(a.p)}跳過了盲換`,
       slapOk: (a, n) => `${n(a.p)}配對成功：第 ${a.i} 張牌 ${a.c}`,
       slapOpponent: (a, n) => `${n(a.p)}配對棄掉了${n(a.q)}的第 ${a.i} 張牌 ${a.c}`,
       slapCompensation: (a, n) => `${n(a.p)}給${n(a.q)}補了一張暗牌`,
@@ -2405,6 +2412,7 @@ class Game {
         d.c.el.style.zIndex = 9999;
         L.setPointerCapture(e.pointerId);
         d.zones.forEach(({ el }) => el.classList.add('drop-zone'));
+        if (d.mode === 'swap') this.refresh();
       }
       d.c.el.style.transform = `translate(${d.ox + dx}px, ${d.oy + dy}px) rotate(${d.angle}rad)`;
       const over = this.cardDropTarget(d.zones, e.clientX, e.clientY);
@@ -2564,6 +2572,7 @@ class Game {
     const mine = first.p === 0 ? first : second;
     const theirs = first.p === 0 ? second : first;
     this.swapSel = null;
+    this.selected = null;
     this.answer({ mine: mine.i, theirs: { p: theirs.p, i: theirs.i } });
   }
 
@@ -3123,6 +3132,9 @@ class Game {
   refresh() {
     if (!this.cards) return;
     const top = this.discard[this.discard.length - 1], topDeck = this.deck[this.deck.length - 1], S = this.slap, mode = this.prompt && this.prompt.mode;
+    const swapDrag = mode === 'swap' && this.drag?.moved && this.drag.context === this.prompt ? this.drag : null;
+    const swapSource = swapDrag?.loc ?? this.swapSel;
+    const selected = swapDrag?.c ?? this.selected;
     this.heldEls[0].classList.toggle('awaiting-draw', mode === 'turn' && !this.paused && !this.players[0].held);
     const canTake = mode === 'turn' && this.ar.takeDiscard && top && this.lastDiscardBy !== 0, canDrop = mode === 'held' && !this.heldFromDiscard;
     const humanWindow = this.humanSlapOpen();
@@ -3140,7 +3152,7 @@ class Game {
         if (l.p === 0 && (mode === 'held' || mode === 'peek')) hl = true;
         if (l.p === 0 && mode === 'slapCompensate' && !c.up) hl = true;
         if (l.p !== 0 && mode === 'spy') hl = true;
-        if (mode === 'swap') hl = !this.swapSel || ((l.p === 0) !== (this.swapSel.p === 0));
+        if (mode === 'swap') hl = !swapSource || ((l.p === 0) !== (swapSource.p === 0));
         if (slappable && this.assist && this.humanKnown.has(c.id) && c.rank === top?.rank) slap = true;
       }
       const inHand = l.t === 'slot' || l.t === 'held';
@@ -3150,7 +3162,7 @@ class Game {
       const el = c.el;
       el.classList.toggle('hl', hl && !slap); el.classList.toggle('slap', slap);
       el.classList.toggle('dim', !!(slappable && l.p === 0 && !slap));
-      el.classList.toggle('sel', this.selected === c);
+      el.classList.toggle('sel', selected === c);
       el.classList.toggle('known', show);
       if (show) c.chip.innerHTML = `<span class="${c.red ? 'r' : ''}">${c.suit}</span> ${c.rank}`;
       let wk = '';
@@ -3518,10 +3530,13 @@ class Game {
         const r = await this.ask('swap');          // one of mine + one of theirs, either order
         if (r === 'SKIP') return;
         mine = r.mine; theirs = r.theirs;
-        this.selected = null; this.swapSel = null;
       } else {
         const known = own().filter(k => p.known.has(p.slots[k].id)).sort((a, b) => this.cardPoints(p.slots[b]) - this.cardPoints(p.slots[a]));
-        if (known.length && this.cardPoints(p.slots[known[0]]) <= 4) return;       // nothing worth giving away
+        if (known.length && this.cardPoints(p.slots[known[0]]) <= 4) {
+          this.log('swapSkip', { p: i }, 'skill');
+          this.checkpoint('slap');
+          return;
+        }
         mine = known.length ? known[0] : own()[Math.floor(Math.random() * own().length)];
         const all = opp(), good = all.filter(t => {
           const c = this.players[t.p].slots[t.i];
