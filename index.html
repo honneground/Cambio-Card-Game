@@ -1012,6 +1012,7 @@ const LOCALES = {
       backs: { corners: 'Corners', plain: 'Plain', frame: 'Frame', stripes: 'Stripes', dots: 'Dots' },
       hlTitle: 'Selection highlight',
       highlights: { glow: 'Shining glow', outline: 'Breathing outline', flow: 'Edge flow', inner: 'Inner glow' },
+      autoSkipMatchTitle: 'Auto-skip matching', autoSkipMatchDesc: 'With Memory Assist on, skip your match window if no known card matches.',
       configSection: 'Configuration', resetSettings: 'Restore default settings', resetAction: 'Restore', resetDesc: 'Reset app preferences and use the default rules next match.',
       username: 'Username', usernameDesc: 'Leave blank to display “You”.',
       devTitle: 'Disable developer mode', devDesc: 'Hides the Omniscient view button that reveals every card',
@@ -1107,6 +1108,7 @@ const LOCALES = {
     backs: { corners: 'Esquinas', plain: 'Liso', frame: 'Marco', stripes: 'Rayas', dots: 'Puntos' },
     hlTitle: 'Resaltado de selección',
     highlights: { glow: 'Brillo resplandor', outline: 'Contorno vivo', flow: 'Flujo de borde', inner: 'Brillo interior' },
+    autoSkipMatchTitle: 'Omitir emparejamiento automáticamente', autoSkipMatchDesc: 'Con la ayuda de memoria activada, omite tu oportunidad de emparejar si ninguna carta conocida coincide.',
     configSection: 'Configuración', resetSettings: 'Restablecer ajustes', resetAction: 'Restablecer', resetDesc: 'Restablece las preferencias y las reglas por defecto para la próxima partida.',
     username: 'Nombre de usuario', usernameDesc: 'Deja en blanco para mostrar "Tú".',
     devTitle: 'Desactivar modo desarrollador', devDesc: 'Oculta el botón de vista omnisciente que revela todas las cartas',
@@ -1196,6 +1198,7 @@ const LOCALES = {
     backs: { corners: 'Coins', plain: 'Uni', frame: 'Cadre', stripes: 'Rayures', dots: 'Points' },
     hlTitle: 'Surbrillance de sélection',
     highlights: { glow: 'Éclat brillant', outline: 'Contour vivant', flow: 'Flux de bord', inner: 'Lueur intérieure' },
+    autoSkipMatchTitle: 'Passer automatiquement l’association', autoSkipMatchDesc: 'Avec l’aide mémoire activée, passez votre tour d’association si aucune carte connue ne correspond.',
     configSection: 'Configuration', resetSettings: 'Rétablir les paramètres par défaut', resetAction: 'Rétablir', resetDesc: 'Réinitialise les préférences d’affichage et rétablit les règles par défaut pour la prochaine partie.',
     username: 'Nom de joueur', usernameDesc: 'Laisser vide pour afficher "Vous".',
     devTitle: 'Désactiver mode développeur', devDesc: 'Masque le bouton de vue omnisciente qui révèle toutes les cartes',
@@ -1285,6 +1288,7 @@ const LOCALES = {
       backs: { corners: 'コーナー', plain: '無地', frame: 'フレーム', stripes: 'ストライプ', dots: 'ドット' },
       hlTitle: '選択ハイライト',
       highlights: { glow: 'シャイン', outline: 'アウトライン', flow: 'エッジフロー', inner: 'インナーグロー' },
+      autoSkipMatchTitle: 'ペア捨てを自動スキップ', autoSkipMatchDesc: '記憶アシスト使用中、ペアになると分かっているカードがなければ、自分のペア捨ての機会をスキップします。',
       configSection: '設定', resetSettings: 'デフォルトに戻す', resetAction: '初期化', resetDesc: '表示設定を初期化し、次回マッチのルールをデフォルトに戻します。',
       username: 'ユーザー名', usernameDesc: '空欄の場合は「あなた」と表示されます。',
       devTitle: '開発者モードを無効化', devDesc: '全カードを開示する「全知視点」ボタンを非表示にします',
@@ -1377,6 +1381,7 @@ const LOCALES = {
     backs: { corners: '모서리', plain: '단색', frame: '프레임', stripes: '스트라이프', dots: '도트' },
     hlTitle: '선택 강조 효과',
     highlights: { glow: '빛나는 광채', outline: '호흡 윤곽', flow: '외곽선 흐름', inner: '내부 은은한 빛' },
+    autoSkipMatchTitle: '자동으로 매칭 건너뛰기', autoSkipMatchDesc: '기억 도우미를 켰을 때 일치하는 것으로 확인된 카드가 없으면 내 매칭 기회를 건너뜁니다.',
     configSection: '구성', resetSettings: '기본 설정 복원', resetAction: '복원', resetDesc: '화면 설정을 초기화하고 다음 경기의 규칙을 기본값으로 되돌립니다.',
     username: '플레이어 이름', usernameDesc: '비워두면 "나"로 표시됩니다.',
     devTitle: '개발자 모드 끄기', devDesc: '모든 카드를 보는 "전지적 시점" 버튼 숨기기',
@@ -1466,6 +1471,7 @@ const LOCALES = {
       backs: { corners: '角线', plain: '纯色', frame: '边框', stripes: '斜纹', dots: '点阵' },
       hlTitle: '选中提示',
       highlights: { glow: '闪耀高光', outline: '呼吸轮廓', flow: '边缘流光', inner: '内映微光' },
+      autoSkipMatchTitle: '无已知配对时自动跳过', autoSkipMatchDesc: '开启记忆辅助后，如果没有已知的可配对牌，就自动跳过你的配对机会。',
       configSection: '配置', resetSettings: '恢复默认设置', resetAction: '恢复', resetDesc: '重置界面偏好，并为下一局恢复默认规则。',
       username: '用户名', usernameDesc: '留空时显示「你」。',
       devTitle: '关闭开发者模式', devDesc: '隐藏顶栏用于查看所有牌的「全知视角」按钮',
@@ -1559,6 +1565,7 @@ const LOCALES = {
       backs: { corners: '角線', plain: '純色', frame: '邊框', stripes: '斜紋', dots: '點陣' },
       hlTitle: '選中提示',
       highlights: { glow: '閃耀高光', outline: '呼吸輪廓', flow: '邊緣流光', inner: '內映微光' },
+      autoSkipMatchTitle: '無已知配對時自動跳過', autoSkipMatchDesc: '開啟記憶輔助後，如果沒有已知的可配對牌，就自動跳過你的配對機會。',
       configSection: '配置', resetSettings: '恢復預設設定', resetAction: '恢復', resetDesc: '重置介面偏好，並為下一局恢復預設規則。',
       username: '使用者名稱', usernameDesc: '留空時顯示「你」。',
       devTitle: '關閉開發者模式', devDesc: '隱藏頂欄用於檢視所有牌的「全知視角」按鈕',
@@ -1706,7 +1713,7 @@ const CANCEL = Symbol('cancel');
 const HIGHLIGHTS = ['glow', 'outline', 'flow', 'inner'];
 const ROUND_COUNTS = [1, 4, 8];
 const THEME_MODES = ['light', 'system', 'dark'];
-const PREFERENCE_KEYS = ['rounds', 'hl', 'back', 'rules', 'theme', 'assist', 'who', 'sound', 'dev'];
+const PREFERENCE_KEYS = ['rounds', 'hl', 'back', 'rules', 'theme', 'assist', 'autoSkipMatch', 'who', 'sound', 'dev'];
 const USERNAME_LIMIT = 24;
 const CORE_RULES = Object.freeze({ skills: true, penalty: true, slapPenalty: true, takeDiscard: true });
 const RULE_DEFAULTS = Object.freeze({
@@ -1810,6 +1817,7 @@ class Game {
     const theme = read('theme');
     this.themeMode = THEME_MODES.includes(theme) ? theme : 'system';
     this.assist = read('assist') !== '0';
+    this.autoSkipMatch = read('autoSkipMatch') !== '0';
     this.who = read('who') === '1';
     sound.on = read('sound') !== '0';
     this.dev = read('dev') === '1';
@@ -2711,6 +2719,15 @@ class Game {
         for (const button of buttons) this.settingsLanguageFit.observe(button.firstElementChild);
       }
     }
+    const autoSkip = document.createElement('label');
+    autoSkip.className = 'settings-choice rule-row';
+    autoSkip.innerHTML = `<span><span id="setAutoSkipMatchTitle">${U.autoSkipMatchTitle}</span><small id="setAutoSkipMatchDesc">${U.autoSkipMatchDesc}</small></span>
+      <span class="switch"><input type="checkbox" role="switch" aria-labelledby="setAutoSkipMatchTitle" aria-describedby="setAutoSkipMatchDesc"${this.autoSkipMatch ? ' checked' : ''}><span class="track"><span class="thumb"></span></span></span>`;
+    autoSkip.querySelector('input').onchange = ({ target }) => {
+      this.autoSkipMatch = target.checked;
+      this.write('monkey-autoSkipMatch', this.autoSkipMatch ? '1' : '0');
+    };
+    display.appendChild(autoSkip);
     this.bindSettingsPreview(display, preview);
     const rounds = document.createElement('div');
     rounds.className = 'settings-choice';
@@ -3614,20 +3631,32 @@ class Game {
     const S = this.slap;
     return !!(S && S.phase === 'human' && !S.humanLocked && !S.skipped && !S.closed && S.t < S.humanMs);
   }
+  hasKnownSlapMatch(top = this.discard.at(-1)) {
+    if (!top) return false;
+    const canSlapOpponent = this.canSlapOpponent(0);
+    return this.players.some((player, i) => (i === 0 || canSlapOpponent) &&
+      player.slots.some(c => c && !c.up && this.humanKnown.has(c.id) && c.rank === top.rank));
+  }
+  autoSkipUnmatchedSlap(S, knownMatch) {
+    if (this.paused || !this.assist || !this.autoSkipMatch || S.busy || !this.humanSlapOpen()) return;
+    if (knownMatch ?? this.hasKnownSlapMatch()) return;
+    S.skipped = true;
+    this.el.slapBar.classList.remove('on');
+  }
   async slapWindow(resume = {}) {
     const top = this.discard[this.discard.length - 1]; if (!top) return;
-    const canSlapOpponent = this.canSlapOpponent(0);
-    const cand = this.players.some((p, i) => (i === 0 || canSlapOpponent) && p.slots.some(c => c && !c.up && this.humanKnown.has(c.id) && c.rank === top.rank));
-    const humanMs = (!this.assist || cand) ? 6000 : 3600;
+    const knownMatch = this.hasKnownSlapMatch(top);
+    const humanMs = (!this.assist || knownMatch) ? 6000 : 3600;
     const S = this.slap = { humanLocked: false, skipped: false, chainActor: null, closed: false, compensation: null,
       t: 0, phase: 'human', plan: null, humanMs, aiUntil: null, ...resume.slap };
     // Older saves completed the window after any success or a single AI attempt.
     if (S.success || S.plan?.done || (resume.failure && resume.failure.actor !== 0)) S.closed = true;
     if (S.phase === 'ai' && S.aiUntil === null) S.aiUntil = Math.max(S.t, S.plan?.at ?? 0) + 50;
     S.busy = !!(resume.failure || S.compensation);
+    this.autoSkipUnmatchedSlap(S, knownMatch);
     const updateProgress = () => { this.el.slapFill.style.transform = `scaleX(${Math.max(0, 1 - S.t / S.humanMs) ** 2})`; };
-    this.setHud('slap', { opponent: canSlapOpponent });
-    this.el.slapBar.classList.toggle('on', S.phase === 'human');
+    this.setHud('slap', { opponent: this.canSlapOpponent(0) });
+    this.el.slapBar.classList.toggle('on', S.phase === 'human' && !S.skipped);
     updateProgress();
     this.refresh();
     try {
@@ -3635,11 +3664,14 @@ class Game {
       else if (S.compensation) this.finishSlapCompensation().catch(e => { if (e !== CANCEL) console.error(e); });
       else this.checkpoint('slap', { slap: S });
       while (true) {
+        const wasBusy = S.busy;
         await this.sleep(50);
-        if (this.prompt?.mode !== 'slapCompensate') S.t += 50;
+        // A tick must be fully playable to count against the human chain.
+        if (S.phase === 'ai' || (!wasBusy && !S.busy)) S.t += 50;
         if (S.phase === 'human') {
-          updateProgress();
           if (S.busy) continue;
+          this.autoSkipUnmatchedSlap(S);
+          updateProgress();
           if (S.closed) break;
           if (this.humanSlapOpen()) continue;
           if (S.chainActor !== null) break;
@@ -3731,6 +3763,7 @@ class Game {
   }
   completeSlap(S) {
     S.busy = false;
+    this.autoSkipUnmatchedSlap(S);
     this.checkpoint('slap', { slap: S });
     this.refresh();
   }
