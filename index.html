@@ -647,6 +647,11 @@ html[data-theme="light"] #settingsModal .dialog { --settings-surface: #fff; }
 .rule-row + .rule-row, #setRules .settings-choice + .rule-row { border-top: 1px solid var(--settings-divider); }
 .rule-row small { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; color: var(--on-surface-variant); }
 .rule-row .switch { position: relative; margin: 0; flex: none; }
+.gameplay-assist-options {
+  margin: 0 0 8px 8px; padding-inline-start: 12px;
+  border-inline-start: 2px solid var(--settings-divider);
+}
+.gameplay-assist-options + .rule-row { border-top: 1px solid var(--settings-divider); }
 #setGameplay .rule-row[hidden] { display: none; }
 #setGameplay .switch:has(input:disabled) { cursor: default; }
 #setGameplay input:disabled + .track { opacity: .45; }
@@ -870,7 +875,7 @@ html[data-theme="light"] :is(.slot.empty, .held.awaiting-draw) { border-color: #
   <div class="brand">Combio</div>
   <div class="tools">
     <button class="icon-btn" id="btnXray" data-tip="xray" style="display:none"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>
-    <button class="icon-btn toggled" id="btnAssist" data-tip="assist"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></button>
+    <button class="icon-btn" id="btnAssist" data-tip="assist"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></button>
     <button class="icon-btn" id="btnWho" data-tip="who"><svg class="icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></button>
         <button class="icon-btn" id="btnPause" data-tip="pause" aria-keyshortcuts="P Space"><svg class="icon" viewBox="0 0 24 24" id="pauseIcon"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
     <button type="button" class="icon-btn" id="btnLang" data-tip="lang" popovertarget="languageMenu" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg></button>
@@ -1046,6 +1051,7 @@ const LOCALES = {
       assist: 'Memory assist', start: 'Start match', monkey: 'Monkey!', skip: 'Skip match', skipSkill: 'Skip skill', logTitle: 'Log', again: 'Play again', close: 'Close',
       shortcutLead: 'Press',
       confirmSkipMatch: 'Confirm skip', shortcutConfirmSkip: 'again to skip match',
+      confirmMonkey: 'Confirm Monkey!',
       shortcutActions: { btnReady: 'to start the round', btnMonkey: 'to call Monkey!', btnSkip: 'to skip match', btnSkipSkill: 'to skip the skill', btnShowResult: 'to show results', btnPause: 'to resume', deckEl: 'to draw a card' },
       rulesTitle: 'How to play', rank: 'Rank', player: 'Player', cards: 'Cards', score: 'Score',
       overSub: 'The lowest round score wins.',
@@ -1147,6 +1153,7 @@ const LOCALES = {
     assist: 'Asistente de memoria', start: 'Comenzar partida', monkey: '¡Monkey!', skip: 'Pasar pareja', skipSkill: 'Pasar habilidad', logTitle: 'Registro', again: 'Jugar de nuevo', close: 'Cerrar',
     shortcutLead: 'Pulsa',
     confirmSkipMatch: 'Confirmar salto', shortcutConfirmSkip: 'otra vez para pasar pareja',
+    confirmMonkey: 'Confirmar Monkey',
     shortcutActions: { btnReady: 'para comenzar ronda', btnMonkey: 'para cantar Monkey', btnSkip: 'para pasar pareja', btnSkipSkill: 'para pasar habilidad', btnShowResult: 'para ver resultados', btnPause: 'para reanudar', deckEl: 'para robar carta' },
     rulesTitle: 'Cómo jugar', rank: 'Puesto', player: 'Jugador', cards: 'Mano', score: 'Puntos',
     overSub: 'Gana la puntuación más baja de la ronda.',
@@ -1244,6 +1251,7 @@ const LOCALES = {
     assist: 'Aide mémoire', start: 'Commencer', monkey: 'Monkey !', skip: 'Passer l’association', skipSkill: 'Passer le pouvoir', logTitle: 'Journal', again: 'Rejouer', close: 'Fermer',
     shortcutLead: 'Appuyez sur',
     confirmSkipMatch: 'Confirmer le passage', shortcutConfirmSkip: 'de nouveau pour passer l’association',
+    confirmMonkey: 'Confirmer Monkey',
     shortcutActions: { btnReady: 'pour lancer la manche', btnMonkey: 'pour crier Monkey !', btnSkip: 'pour passer l’association', btnSkipSkill: 'pour passer le pouvoir', btnShowResult: 'pour afficher les résultats', btnPause: 'pour reprendre', deckEl: 'pour piocher' },
     rulesTitle: 'Règles du jeu', rank: 'Rang', player: 'Joueur', cards: 'Cartes', score: 'Points',
     overSub: 'Le score de manche le plus bas l’emporte.',
@@ -1341,6 +1349,7 @@ const LOCALES = {
       assist: '記憶アシスト', start: 'ゲーム開始', monkey: 'Monkey!', skip: 'スキップ', skipSkill: 'スキルをスキップ', logTitle: '対局ログ', again: 'もう一度プレイ', close: '閉じる',
       shortcutLead: 'キー',
       confirmSkipMatch: 'スキップを確認', shortcutConfirmSkip: 'もう一度押してスキップ',
+      confirmMonkey: 'Monkey宣言を確認',
       shortcutActions: { btnReady: 'ラウンド開始', btnMonkey: 'Monkey宣言', btnSkip: 'スキップ', btnSkipSkill: 'スキルをスキップ', btnShowResult: '結果を表示', btnPause: '再開', deckEl: 'カードを引く' },
       rulesTitle: 'ルール説明', rank: '順位', player: 'プレイヤー', cards: '手札', score: 'スコア',
       overSub: 'ラウンドスコアが最も低いプレイヤーの勝利。',
@@ -1441,6 +1450,7 @@ const LOCALES = {
     assist: '기억 도우미', start: '대결 시작', monkey: 'Monkey!', skip: '매칭 건너뛰기', skipSkill: '스킬 건너뛰기', logTitle: '기록', again: '다시 하기', close: '닫기',
     shortcutLead: '단축키:',
     confirmSkipMatch: '건너뛰기 확인', shortcutConfirmSkip: '한 번 더 눌러 매칭 건너뛰기',
+    confirmMonkey: 'Monkey 선언 확인',
     shortcutActions: { btnReady: '라운드 시작', btnMonkey: 'Monkey 선언', btnSkip: '매칭 건너뛰기', btnSkipSkill: '스킬 건너뛰기', btnShowResult: '결과 보기', btnPause: '계속하기', deckEl: '카드 뽑기' },
     rulesTitle: '규칙 설명', rank: '순위', player: '플레이어', cards: '손패', score: '점수',
     overSub: '이번 라운드 최저 점수 플레이어가 승리합니다.',
@@ -1538,6 +1548,7 @@ const LOCALES = {
       assist: '记忆辅助', start: '开始对决', monkey: 'Monkey!', skip: '跳过配对', skipSkill: '跳过技能', logTitle: '战报', again: '再来一局', close: '关闭',
       shortcutLead: '按',
       confirmSkipMatch: '确认跳过', shortcutConfirmSkip: '确认跳过配对',
+      confirmMonkey: '确认喊 Monkey',
       shortcutActions: { btnReady: '开始对决', btnMonkey: '喊 Monkey!', btnSkip: '跳过配对', btnSkipSkill: '跳过技能', btnShowResult: '显示结果', btnPause: '继续游戏', deckEl: '抽牌' },
       rulesTitle: '规则说明', rank: '名次', player: '玩家', cards: '手牌', score: '总分',
       overSub: '本场分数最低者获胜。',
@@ -1639,6 +1650,7 @@ const LOCALES = {
       assist: '記憶輔助', start: '開始對決', monkey: 'Monkey!', skip: '跳過配對', skipSkill: '跳過技能', logTitle: '戰報', again: '再來一局', close: '關閉',
       shortcutLead: '按',
       confirmSkipMatch: '確認跳過', shortcutConfirmSkip: '確認跳過配對',
+      confirmMonkey: '確認喊 Monkey',
       shortcutActions: { btnReady: '開始對決', btnMonkey: '喊 Monkey!', btnSkip: '跳過配對', btnSkipSkill: '跳過技能', btnShowResult: '顯示結果', btnPause: '繼續遊戲', deckEl: '抽牌' },
       rulesTitle: '規則說明', rank: '名次', player: '玩家', cards: '手牌', score: '總分',
       overSub: '本場分數最低者獲勝。',
@@ -1874,9 +1886,10 @@ class Game {
     this.lang = savedLang ? selectLanguage(savedLang) : DEFAULT_LANGUAGE;
     const theme = read('theme');
     this.themeMode = THEME_MODES.includes(theme) ? theme : 'system';
-    this.assist = read('assist') !== '0';
-    this.autoSkipMatch = this.assist && read('autoSkipMatch') !== '0';
-    this.confirmKnownMatchSkip = this.assist && read('confirmKnownMatchSkip') === '1';
+    this.assist = read('assist') === '1';
+    // Keep the saved choices while Memory Assist is disabled.
+    this.autoSkipMatch = read('autoSkipMatch') !== '0';
+    this.confirmKnownMatchSkip = read('confirmKnownMatchSkip') !== '0';
     this.who = read('who') === '1';
     sound.on = read('sound') !== '0';
     this.dev = read('dev') === '1';
@@ -1884,16 +1897,11 @@ class Game {
   }
   setGameplayOption(key, value) {
     if (!GAMEPLAY_OPTIONS.includes(key)) return;
-    const enabled = Boolean(value) && (!MATCH_ASSIST_OPTIONS.includes(key) || this.assist) && (key !== 'god' || this.dev);
+    if (MATCH_ASSIST_OPTIONS.includes(key) && !this.assist) return;
+    const enabled = Boolean(value) && (key !== 'god' || this.dev);
     this[key] = enabled;
     this.write(`monkey-${key}`, enabled ? '1' : '0');
-    if (key === 'assist') {
-      for (const option of MATCH_ASSIST_OPTIONS) {
-        if (!enabled) this[option] = false;
-        this.write(`monkey-${option}`, this[option] ? '1' : '0');
-      }
-    }
-    if (!this.confirmKnownMatchSkip) this.armedMatchSkip = null;
+    if (!this.assist || !this.confirmKnownMatchSkip) this.armedMatchSkip = null;
     this.syncGameplayControls();
     if (key === 'god') this.layout();
     else this.refresh();
@@ -2010,6 +2018,7 @@ class Game {
     this.paused = v;
     if (v) {
       this.armedMatchSkip = null;
+      this.armedMonkeyCall = null;
       this.cancelCardDrag();
     }
     const now = performance.now();
@@ -2024,6 +2033,7 @@ class Game {
   }
   cancelAll() {
     this.armedMatchSkip = null;
+    this.armedMonkeyCall = null;
     this.cancelCardDrag();
     this.timers.forEach(t => { clearTimeout(t.id); t.reject(CANCEL); });
     this.timers.clear();
@@ -2424,6 +2434,7 @@ class Game {
       e.preventDefault();
       if (e.repeat) return;
       if (action === this.el.skip) this.onTarget({ k: 'skip', source: key });
+      else if (action === this.el.monkey) this.onTarget({ k: 'monkey', source: 'Enter' });
       else action.click();
     });
     this.desktopInput.addEventListener('change', () => this.renderShortcutHint());
@@ -2610,7 +2621,13 @@ class Game {
   ask(mode) {
     return new Promise((resolve, reject) => { this.prompt = { mode, resolve, reject }; this.refresh(); });
   }
-  answer(v) { const p = this.prompt; if (!p) return; this.prompt = null; this.refresh(); p.resolve(v); }
+  answer(v) {
+    const p = this.prompt; if (!p) return;
+    this.prompt = null;
+    this.armedMonkeyCall = null;
+    this.refresh();
+    p.resolve(v);
+  }
   onTarget(t) {
     if (this.paused) return;
     // slap window runs without a prompt
@@ -2642,7 +2659,12 @@ class Game {
     if (m === 'ready' && t.k === 'ready') return this.answer(true);
     if (m === 'turn') {
       if (t.k === 'deck') return this.answer(p0.slots[t.replace] ? { replace: t.replace } : 'deck');
-      if (t.k === 'monkey') return this.answer('monkey');
+      if (t.k === 'monkey' && this.caller === null && !this.panelOpen()) {
+        if (t.source === 'Enter' || this.armedMonkeyCall === this.prompt) return this.answer('monkey');
+        this.armedMonkeyCall = this.prompt;
+        this.refresh();
+        return;
+      }
       if (t.k === 'discard' && this.ar.takeDiscard && this.discard.length && this.lastDiscardBy !== 0) return this.answer('take');
     }
     if (m === 'held') {
@@ -2700,8 +2722,8 @@ class Game {
   syncGameplaySettings() {
     for (const input of document.querySelectorAll('#setGameplay input[data-gameplay]')) {
       const key = input.dataset.gameplay;
-      input.checked = Boolean(this[key]);
       input.disabled = !this.assist && MATCH_ASSIST_OPTIONS.includes(key);
+      input.checked = !input.disabled && Boolean(this[key]);
       if (key === 'god') input.closest('.rule-row').hidden = !this.dev;
     }
   }
@@ -2820,12 +2842,16 @@ class Game {
       }
     }
     this.bindSettingsPreview(display, preview);
+    const matchOptions = document.createElement('div');
+    matchOptions.className = 'gameplay-assist-options';
+    matchOptions.setAttribute('role', 'group');
+    matchOptions.setAttribute('aria-labelledby', 'setAssistTitle');
     for (const [key, title, desc] of [
       ['assist', U.assist, U.gameplay.assistDesc],
+      ['confirmKnownMatchSkip', ...U.gameplay.confirmKnownMatchSkip],
+      ['autoSkipMatch', U.autoSkipMatchTitle, U.autoSkipMatchDesc],
       ['who', ...U.gameplay.who],
       ['god', ...U.gameplay.god],
-      ['autoSkipMatch', U.autoSkipMatchTitle, U.autoSkipMatchDesc],
-      ['confirmKnownMatchSkip', ...U.gameplay.confirmKnownMatchSkip],
     ]) {
       const row = document.createElement('label');
       row.className = 'rule-row';
@@ -2833,7 +2859,8 @@ class Game {
       row.innerHTML = `<span><span id="${id}Title">${title}</span><small id="${id}Desc">${desc}</small></span>
         <span class="switch"><input type="checkbox" role="switch" data-gameplay="${key}" aria-labelledby="${id}Title" aria-describedby="${id}Desc"><span class="track"><span class="thumb"></span></span></span>`;
       row.querySelector('input').onchange = ({ target }) => this.setGameplayOption(key, target.checked);
-      gameplay.appendChild(row);
+      (MATCH_ASSIST_OPTIONS.includes(key) ? matchOptions : gameplay).appendChild(row);
+      if (key === 'assist') gameplay.appendChild(matchOptions);
     }
     this.syncGameplaySettings();
     const rounds = document.createElement('div');
@@ -3306,6 +3333,8 @@ class Game {
     this.el.monkey.classList.toggle('show', mode === 'turn' && this.caller === null);
     this.el.skip.classList.toggle('show', !!(humanWindow && !S.compensation));
     const U = T[this.lang].ui;
+    const monkeyLabel = mode === 'turn' && this.armedMonkeyCall === this.prompt ? U.confirmMonkey : U.monkey;
+    if (this.el.monkey.textContent !== monkeyLabel) this.el.monkey.textContent = monkeyLabel;
     const skipLabel = this.matchSkipArmed('button') || this.matchSkipArmed('Enter') ? U.confirmSkipMatch : U.skip;
     if (this.el.skip.textContent !== skipLabel) this.el.skip.textContent = skipLabel;
     this.renderShortcutHint();
@@ -3393,6 +3422,12 @@ class Game {
     await this.sleep(450);
   }
 
+  /** Record a publicly visible card in every player's memory. */
+  knowPublic(c) {
+    this.humanKnown.add(c.id);
+    this.players.forEach(pl => pl.known.add(c.id));
+  }
+
   async beginTurn(i) {
     const p = this.players[i];
     this.checkpoint('turn', { actor: i });
@@ -3451,7 +3486,12 @@ class Game {
       const top = this.discard[this.discard.length - 1];
       const rest = this.discard.filter(c => c !== top);
       for (let k = rest.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [rest[k], rest[j]] = [rest[j], rest[k]]; }
-      rest.forEach(c => { c.up = false; this.humanKnown.delete(c.id); this.place(c, { t: 'deck' }, true); });
+      rest.forEach(c => {
+        c.up = false;
+        this.humanKnown.delete(c.id);
+        this.players.forEach(pl => pl.known.delete(c.id));
+        this.place(c, { t: 'deck' }, true);
+      });
       this.log('reshuffle'); this.layout();
     }
     return this.deck[this.deck.length - 1] || null;
