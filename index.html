@@ -2150,7 +2150,7 @@ class Game {
       row.hidden = !action;
       lead.textContent = action ? `${U.shortcutLead} ` : '';
       key.textContent = action ? U.keyLabels[keys[i]] : '';
-      const copy = action === this.el.skip && this.matchSkipArmed() ? U.shortcutConfirmSkip : U.shortcutActions[action?.id];
+      const copy = action === this.el.skip && this.matchSkipArmed('Space') ? U.shortcutConfirmSkip : U.shortcutActions[action?.id];
       instruction.textContent = copy ? ` ${copy}` : '';
     });
   }
@@ -2398,7 +2398,7 @@ class Game {
     id('btnAssist').onclick = () => this.setGameplayOption('assist', !this.assist);
     this.el.ready.onclick = () => this.onTarget({ k: 'ready' });
     this.el.monkey.onclick = () => this.onTarget({ k: 'monkey' });
-    this.el.skip.onclick = () => this.onTarget({ k: 'skip' });
+    this.el.skip.onclick = () => this.onTarget({ k: 'skip', source: 'button' });
     this.el.skipSkill.onclick = () => this.onTarget({ k: 'skipskill' });
     this.el.deck.onclick = () => this.onTarget({ k: 'deck' });
     this.el.discard.onclick = () => this.onTarget({ k: 'discard' });
@@ -2418,10 +2418,13 @@ class Game {
       }
       if (focused.matches('.tools button[aria-expanded], #btnTheme')) return;
       const key = e.key === ' ' ? 'Space' : e.key;
-      const action = this.activeRoundAction(key);
+      const focusedSkip = key === 'Enter' && focused === this.el.skip && this.el.skip.classList.contains('show') && !this.panelOpen() && !this.paused;
+      const action = focusedSkip ? this.el.skip : this.activeRoundAction(key);
       if (!action) return;
       e.preventDefault();
-      if (!e.repeat) action.click();
+      if (e.repeat) return;
+      if (action === this.el.skip) this.onTarget({ k: 'skip', source: key });
+      else action.click();
     });
     this.desktopInput.addEventListener('change', () => this.renderShortcutHint());
     window.addEventListener('resize', () => {
@@ -2614,8 +2617,9 @@ class Game {
     if (!this.prompt) {
       const S = this.slap; if (!S) return;
       if (t.k === 'skip' && this.humanSlapOpen() && !S.compensation) {
-        if (this.assist && this.confirmKnownMatchSkip && !this.matchSkipArmed() && this.hasKnownSlapMatch()) {
-          this.armedMatchSkip = S;
+        const source = t.source ?? 'button';
+        if (this.assist && this.confirmKnownMatchSkip && !this.matchSkipArmed(source) && this.hasKnownSlapMatch()) {
+          this.armedMatchSkip = { slap: S, source };
           this.refresh();
           return;
         }
@@ -3302,7 +3306,7 @@ class Game {
     this.el.monkey.classList.toggle('show', mode === 'turn' && this.caller === null);
     this.el.skip.classList.toggle('show', !!(humanWindow && !S.compensation));
     const U = T[this.lang].ui;
-    const skipLabel = this.matchSkipArmed() ? U.confirmSkipMatch : U.skip;
+    const skipLabel = this.matchSkipArmed('button') || this.matchSkipArmed('Enter') ? U.confirmSkipMatch : U.skip;
     if (this.el.skip.textContent !== skipLabel) this.el.skip.textContent = skipLabel;
     this.renderShortcutHint();
     this.players.forEach((p, i) => this.seatEls[i].classList.toggle('active', this.turn === i && this.phase === 'play'));
@@ -3737,8 +3741,9 @@ class Game {
     const S = this.slap;
     return !!(S && S.phase === 'human' && !S.humanLocked && !S.skipped && !S.closed && S.t < S.humanMs);
   }
-  matchSkipArmed() {
-    return !!this.slap && this.armedMatchSkip === this.slap;
+  matchSkipArmed(source) {
+    const armed = this.armedMatchSkip;
+    return !!armed && armed.slap === this.slap && armed.source === source;
   }
   hasKnownSlapMatch(top = this.discard.at(-1)) {
     if (!top) return false;
