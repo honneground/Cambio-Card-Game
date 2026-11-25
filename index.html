@@ -2576,8 +2576,8 @@ class Game {
       ? player.slots.flatMap((card, i) => card ? [zone(this.slotEls[p][i], { k: 'slot', p, i })] : []) : []);
     if (mode === 'turn' && (l.t === 'deck' || (l.t === 'discard' && this.ar.takeDiscard && this.lastDiscardBy !== 0))) {
       const draw = { k: l.t };
-      const replacements = l.t === 'deck' ? this.players[0].slots.flatMap((card, i) =>
-        card ? [zone(this.slotEls[0][i], { ...draw, replace: i }, 0)] : []) : [];
+      const replacements = this.players[0].slots.flatMap((card, i) =>
+        card ? [zone(this.slotEls[0][i], { ...draw, replace: i }, 0)] : []);
       return [...replacements, zone(held, draw, 24), zone(this.seatEls[0].querySelector('.grid'), draw, 8)];
     }
     if (mode === 'held' && l.p === 0) {
@@ -2666,7 +2666,9 @@ class Game {
         this.refresh();
         return;
       }
-      if (t.k === 'discard' && this.ar.takeDiscard && this.discard.length && this.lastDiscardBy !== 0) return this.answer('take');
+      if (t.k === 'discard' && this.ar.takeDiscard && this.discard.length && this.lastDiscardBy !== 0) {
+        return this.answer(p0.slots[t.replace] ? { take: true, replace: t.replace } : 'take');
+      }
     }
     if (m === 'held') {
       if (t.k === 'slot' && t.p === 0 && p0.slots[t.i]) return this.answer({ type: 'replace', i: t.i });
@@ -3446,7 +3448,7 @@ class Game {
       this.setHud('yourTurn'); this.layout();
       const a = await this.ask('turn');
       if (a === 'monkey') { await this.callMonkey(i); return; }
-      fromDiscard = a === 'take';
+      fromDiscard = a === 'take' || !!a?.take;
       if (typeof a === 'object') replace = a.replace;
     } else {
       this.setHud('aiTurn', { p: i }); this.layout();
@@ -3460,7 +3462,8 @@ class Game {
     if (fromDiscard) { card = this.discard[this.discard.length - 1]; this.log('takeDiscard', { p: i, c: this.card(card) }); }
     else { card = this.drawCard(); if (!card) { this.ended = true; return; } this.log('draw', { p: i }); }
     if (replace !== undefined) {
-      await this.applyChoice(i, card, { type: 'replace', i: replace }, true);
+      if (fromDiscard) this.knowPublic(card);
+      await this.applyChoice(i, card, { type: 'replace', i: replace }, !fromDiscard);
       await this.slapWindow();
       return;
     }
