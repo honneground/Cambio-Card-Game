@@ -1507,7 +1507,7 @@ const LOCALES = {
   over: { finalYou: () => '최종 우승을 차지했습니다!', finalOther: (n) => `${n} 님이 최종 우승했습니다`, finalTie: (n) => `${n} 님이 공동 우승`, you: () => '승리!', other: (n) => `${n} 승리`, tie: (n) => `${n} 공동 1위`, monkeyTag: 'Monkey 선언', monkeyZero: '선언 성공 · 0점', pen: '벌점 +10', kamikazeTag: '카미카제', kamikazeSummary: '카미카제 발동: 달성자는 0점, 나머지는 50점.' }
 },
     zh: {
-    tag: 'zh-CN', label: '简中', you: '你',
+    tag: 'zh-CN', label: '简体中文', pillLabel: '简中', you: '你',
     names: {
       Alex: '亚历克斯', Jordan: '乔丹', Morgan: '摩根', Taylor: '泰勒', Chris: '克里斯', Sam: '山姆', Leo: '里奥', Felix: '费利克斯',
       Lucas: '卢卡斯', Oliver: '奥利弗', Casey: '凯西', Robin: '罗宾', Ethan: '伊森', Nora: '诺拉', Mia: '米娅', Ivy: '艾薇',
@@ -1609,7 +1609,7 @@ const LOCALES = {
     over: { finalYou: () => '你赢得了整场比赛', finalOther: (n) => `${n}赢得了整场比赛`, finalTie: (n) => `${n}并列冠军`, you: () => '你赢了', other: (n) => `${n}获胜`, tie: (n) => `${n}并列第一`, monkeyTag: '喊停', monkeyZero: '喊停成功 · 0 分', pen: '罚 +10', kamikazeTag: '神风特攻', kamikazeSummary: '神风特攻触发，达成者记 0 分，其余玩家各记 50 分。' }
   },
     'zh-TW': {
-    tag: 'zh-TW', label: '繁中', you: '你',
+    tag: 'zh-TW', label: '繁體中文', pillLabel: '繁中', you: '你',
     names: {
       Alex: '亞歷克斯', Jordan: '喬丹', Morgan: '摩根', Taylor: '泰勒', Chris: '克里斯', Sam: '山姆', Leo: '里奧', Felix: '費利克斯',
       Lucas: '盧卡斯', Oliver: '奧利弗', Casey: '凱西', Robin: '羅賓', Ethan: '伊森', Nora: '諾拉', Mia: '米婭', Ivy: '艾薇',
@@ -1728,6 +1728,7 @@ function withEnglishFallback(base, translation) {
 const LANGUAGE_CODES = Object.keys(LOCALES);
 const T = Object.fromEntries(LANGUAGE_CODES.map(code => [code, withEnglishFallback(LOCALES[DEFAULT_LANGUAGE], LOCALES[code])]));
 const LANGUAGE_LABELS = Object.fromEntries(LANGUAGE_CODES.map(code => [code, T[code].label]));
+const LANGUAGE_PILL_LABELS = Object.fromEntries(LANGUAGE_CODES.map(code => [code, T[code].pillLabel || T[code].label]));
 
 function selectLanguage(...preferences) {
   for (const preference of preferences) {
@@ -2788,7 +2789,9 @@ class Game {
         if (pref === 'lang') {
           button.lang = T[value].tag;
           const label = document.createElement('span');
-          label.textContent = labels[value];
+          const pillLabel = LANGUAGE_PILL_LABELS[value];
+          if (pillLabel !== labels[value]) button.setAttribute('aria-label', labels[value]);
+          label.textContent = pillLabel;
           button.appendChild(label);
         } else button.textContent = labels[value];
         return button;
@@ -3463,7 +3466,8 @@ class Game {
     }
     card.up = p.human || fromDiscard;
     this.heldFromDiscard = fromDiscard;
-    (p.human ? this.humanKnown : p.known).add(card.id);
+    if (fromDiscard) this.knowPublic(card);
+    else (p.human ? this.humanKnown : p.known).add(card.id);
     this.place(card, { t: 'held', p: i });
     sound.deal();
     this.checkpoint('held', { actor: i });
@@ -3937,7 +3941,9 @@ class Game {
     this.refresh();
   }
   async finishFailedSlap(pi, c) {
-    c.up = true; this.layout();
+    c.up = true;
+    this.knowPublic(c);
+    this.layout();
     this.checkpoint('slap', { slap: this.slap, failure: { actor: pi, target: c.id } });
     await this.sleep(1000);
     c.up = false; this.layout();
