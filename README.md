@@ -4,7 +4,7 @@ Cambio Card Game is a single-page card game inspired by Cambio and Cabo. Play ag
 
 ## Quick start
 
-Open `index.html` in a modern browser and choose a 1-, 4-, or 8-round match. The game runs locally with no build step or backend.
+Play online at [honneground.github.io/Cambio-Card-Game](https://honneground.github.io/Cambio-Card-Game/), or open `index.html` in a browser and choose a 1-, 4-, or 8-round match. The game runs locally with no build step or backend.
 
 You can also serve the project locally.
 
@@ -20,7 +20,7 @@ Open the game in a browser on your device. The table adapts to portrait and land
 
 To install the game, open it over HTTPS in a browser that supports web app installation and use the browser's install option. You can also use the localhost URL above to test installation.
 
-Launch **Combio** as a standalone app where supported. Once the browser has cached the game during an online visit, you can start it offline and resume a match saved in that app or browser.
+Launch **Cambio** as a standalone app where supported. Once the browser has cached the game during an online visit, you can start it offline and resume a match saved in that app or browser.
 
 ## How to play
 
