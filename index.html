@@ -1065,7 +1065,7 @@ const LOCALES = {
         <p><b>Match &amp; discard</b>: whenever a card lands on the discard pile, you get a priority window. Tap a card in your hand with the same rank to discard it and leave its slot empty. A wrong guess costs you a face-down card. After a successful match, the same player can match again within the time left. Opening match gives everyone a chance to match the first discard. You can skip the window.</p>
         <p><b>Match an opponent’s card</b>: when enabled, guess whether an opponent’s face-down card matches the top discard. If you’re right, discard their card and put one of yours face down in their emptied slot. If you’re wrong, their card goes face down in its original slot and you draw a penalty card.</p>
         <p><b>Skip skill</b>: when a discarded 8, 9 or 10 triggers a skill you can tap "Skip skill" to simply discard it without looking or swapping.</p>
-        <p><b>Call Monkey</b>: call it at the start of your turn. Everyone else plays one last turn, then all cards are revealed. The caller’s cards are immune to skills for the rest of the round. The caller takes +10 if their score is higher than the lowest, or if Ties fail too is enabled and they tie for lowest. With Successful Monkey call scores 0 enabled, only the successful caller’s score becomes 0.</p>
+        <p><b>Call Monkey</b>: call it at the start of your turn. Everyone else plays one last turn, then all cards are revealed. The caller’s cards cannot be targeted by other players’ skills or matches for the rest of the round. The caller takes +10 if their score is higher than the lowest, or if Ties fail too is enabled and they tie for lowest. With Successful Monkey call scores 0 enabled, only the successful caller’s score becomes 0.</p>
         <p><b>Kamikaze</b>: when enabled, if anyone holds exactly Q, Q, K, K, every player with that hand scores 0 and everyone else scores 50. This takes priority over ordinary scoring and Monkey bonuses or penalties.</p>`
     },
     skill: { PEEK: ['8', 'Peek', 'Look at one of your own cards'], SPY: ['9', 'Spy', 'Look at one opponent card'], SWAP: ['10', 'Blind swap', 'Swap with an opponent card, unseen'] },
@@ -1164,7 +1164,7 @@ const LOCALES = {
         <p><b>Turno</b>: Roba una carta del mazo o toma la superior del descarte. Si tomas del descarte debes cambiarla por una de tu mano. Toca o arrastra la carta robada al montón de descarte para desecharla, o cámbiala por una de tus cartas.</p>
         <p><b>Habilidades (al descartar directamente)</b>:<br>8 - mira una de tus cartas; 9 - mira una carta de un oponente; 10 - intercambia a ciegas una de tus cartas con la de un oponente.</p>
         <p><b>Emparejar y descartar</b>: Cada vez que cae una carta en el descarte, tienes un tiempo prioritario. Toca una carta de tu mano del mismo valor para descartarla. Si fallas, recibes una carta de penalización.</p>
-        <p><b>Cantar Monkey</b>: Cántalo al inicio de tu turno. Todos los demás juegan un último turno y se revelan las cartas. Las cartas de quien canta quedan protegidas de las habilidades hasta el final de la ronda. Si el que canta no tiene la puntuación más baja, recibe +10 de penalización.</p>`
+        <p><b>Cantar Monkey</b>: Cántalo al inicio de tu turno. Todos los demás juegan un último turno y se revelan las cartas. Las cartas de quien canta quedan protegidas de las habilidades y los emparejamientos de los demás jugadores hasta el final de la ronda. Si el que canta no tiene la puntuación más baja, recibe +10 de penalización.</p>`
   },
   skill: { PEEK: ['8', 'Ojeada', 'Mira una de tus cartas'], SPY: ['9', 'Espía', 'Mira una carta de un oponente'], SWAP: ['10', 'Intercambio a ciegas', 'Intercambia con una carta rival sin mirar'] },
   hud: {
@@ -1262,7 +1262,7 @@ const LOCALES = {
         <p><b>Tour</b> : Piochez une carte ou prenez la carte supérieure de la défausse. Si vous la prenez, vous devez l’échanger avec votre main. Touchez ou glissez la carte piochée sur la défausse pour la jeter, ou échangez-la contre une carte de votre main.</p>
         <p><b>Pouvoirs (en défaussant directement)</b> :<br>8 - regardez une de vos cartes ; 9 - regardez une carte adverse ; 10 - échangez à l’aveugle une de vos cartes avec celle d’un adversaire.</p>
         <p><b>Associer et défausser</b> : À chaque carte défaussée, défaussez une carte de même valeur de votre main. En cas d’erreur, vous piochez une pénalité.</p>
-        <p><b>Annoncer Monkey</b> : Annoncez-le au début de votre tour. Tout le monde joue un dernier tour puis les mains sont révélées. Les cartes de l’annonceur sont protégées des pouvoirs jusqu’à la fin de la manche. L’annonceur prend +10 s’il n’a pas le score le plus bas.</p>`
+        <p><b>Annoncer Monkey</b> : Annoncez-le au début de votre tour. Tout le monde joue un dernier tour puis les mains sont révélées. Les cartes de l’annonceur sont protégées des pouvoirs et des appariements des autres joueurs jusqu’à la fin de la manche. L’annonceur prend +10 s’il n’a pas le score le plus bas.</p>`
   },
   skill: { PEEK: ['8', 'Regard', 'Regardez l’une de vos cartes'], SPY: ['9', 'Espion', 'Regardez une carte adverse'], SWAP: ['10', 'Échange aveugle', 'Échangez avec une carte adverse à l’aveugle'] },
   hud: {
@@ -1362,7 +1362,7 @@ const LOCALES = {
         <p><b>スキル（直接捨てた時に発動）</b>：<br>8 - 自分の手札を1枚見る；9 - 相手の手札を1枚見る；10 - 見ずに自分と相手のカードを1枚交換する。</p>
         <p><b>ペア捨て（スラップ）</b>：捨て札置き場にカードが出た直後、優先時間が与えられます。同じ数字の手札をタップすれば即座に捨てられ、空きスロットになります。間違えるとペナルティカードが1枚配られます。</p>
         <p><b>相手のカードをペア捨て</b>：「相手のカードをペア捨て」有効時、相手の伏せカードを予想して捨てられます。成功すると相手のカードを捨てさせ、自分の手札1枚を相手の空きスロットに渡します。</p>
-        <p><b>Monkey宣言</b>：自分のターン開始時に宣言します。他のプレイヤーが最後にもう1ターン行動した後、全員の手札を開示します。宣言者の手札はラウンド終了までスキルの対象になりません。宣言者のスコアが単独最低でない場合、ペナルティ+10点が加算されます。</p>
+        <p><b>Monkey宣言</b>：自分のターン開始時に宣言します。他のプレイヤーが最後にもう1ターン行動した後、全員の手札を開示します。宣言者の手札はラウンド終了まで、他のプレイヤーのスキルやペア捨ての対象になりません。宣言者のスコアが単独最低でない場合、ペナルティ+10点が加算されます。</p>
         <p><b>カミカゼ</b>：有効時、手札がちょうどQ・Q・K・Kのプレイヤーは0点、それ以外のプレイヤーは全員50点になります。</p>`
     },
     skill: { PEEK: ['8', 'のぞき見', '自分のカードを1枚見る'], SPY: ['9', 'スパイ', '相手のカードを1枚見る'], SWAP: ['10', 'ブラインドスワップ', '見ずに相手のカードと交換する'] },
@@ -1461,7 +1461,7 @@ const LOCALES = {
         <p><b>턴 진행</b>: 덱에서 카드를 1장 뽑거나, 다른 플레이어가 버린 카드 더미 맨 위 카드를 가져옵니다. 가져온 카드는 반드시 손패와 교체해야 합니다. 뽑은 카드를 탭하거나 버린 카드 더미로 드래그하면 버릴 수 있으며, 손패 카드를 탭하여 교체할 수도 있습니다.</p>
         <p><b>스킬 (카드를 직접 버릴 때 발동)</b>:<br>8 - 자신의 카드 1장 확인; 9 - 상대방의 카드 1장 확인; 10 - 보지 않고 자신의 카드와 상대방 카드 1장 맞교환.</p>
         <p><b>매칭 버리기 (슬랩)</b>: 버린 카드 더미에 새 카드가 놓일 때마다 우선 시간이 주어집니다. 손패 중 같은 숫자의 카드를 탭하면 즉시 버려집니다. 잘못 찍으면 페널티 카드를 1장 받습니다.</p>
-        <p><b>Monkey 선언</b>: 자신의 턴 시작 시 외칩니다. 다른 플레이어들이 마지막으로 1턴씩 진행한 후 전원 손패를 공개합니다. 라운드가 끝날 때까지 선언자의 카드는 스킬의 대상이 되지 않습니다. 선언자가 단독 최저 점수가 아닐 경우 10점의 페널티가 추가됩니다.</p>`
+        <p><b>Monkey 선언</b>: 자신의 턴 시작 시 외칩니다. 다른 플레이어들이 마지막으로 1턴씩 진행한 후 전원 손패를 공개합니다. 라운드가 끝날 때까지 선언자의 카드는 다른 플레이어의 스킬이나 매칭 버리기 대상이 되지 않습니다. 선언자가 단독 최저 점수가 아닐 경우 10점의 페널티가 추가됩니다.</p>`
   },
   skill: { PEEK: ['8', '엿보기', '자신의 카드 1장 확인'], SPY: ['9', '스파이', '상대방의 카드 1장 확인'], SWAP: ['10', '블라인드 교환', '보지 않고 상대방 카드와 교환'] },
   hud: {
@@ -1562,7 +1562,7 @@ const LOCALES = {
         <p><b>配对弃牌</b>：每次有牌进入弃牌堆，你有一段优先时间。点击一张与弃牌堆顶牌面点数相同的手牌即可弃掉，原卡位留空。猜错罚摸一张暗牌。配对成功后，同一个玩家可以在剩余时间内继续配对。启用「开局配对」时，翻开的第一张弃牌也有配对机会。你可以跳过配对。</p>
         <p><b>抢丢对手牌</b>：启用后，也可以猜一张对手的暗牌是否与弃牌堆顶同点数。猜对就弃掉对手这张牌，再选一张自己的牌扣放到对手原来的卡位。猜错时对手的牌在原位翻回，猜牌者罚摸一张暗牌。</p>
         <p><b>跳过技能</b>：弃出 8、9、10 触发技能时，可以点「跳过技能」直接弃牌，不看牌也不换牌。</p>
-        <p><b>喊 Monkey</b>：在你的回合开始时喊出，其余玩家各再行动一轮后全员亮牌。发起者的手牌在本轮结束前免疫技能。发起者高于最低分时追加 10 分。启用「平局也算失败」时，并列最低同样受罚。启用「喊 Monkey 成功记 0 分」时，成功后只将发起者记为 0 分。</p>
+        <p><b>喊 Monkey</b>：在你的回合开始时喊出，其余玩家各再行动一轮后全员亮牌。本轮结束前，其他玩家不能对发起者的手牌使用技能或进行配对。发起者高于最低分时追加 10 分。启用「平局也算失败」时，并列最低同样受罚。启用「喊 Monkey 成功记 0 分」时，成功后只将发起者记为 0 分。</p>
         <p><b>神风特攻</b>：启用后，只要有人剩下的手牌恰好是 Q、Q、K、K，所有符合条件的玩家各记 0 分，其余玩家各记 50 分。这时优先按神风特攻结算。</p>`
     },
     skill: { PEEK: ['8', '窥视', '查看自己的一张牌'], SPY: ['9', '间谍', '查看对手的一张牌'], SWAP: ['10', '盲换', '与对手的一张牌互换，不看牌面'] },
@@ -1664,7 +1664,7 @@ const LOCALES = {
         <p><b>配對棄牌</b>：每次有牌進入棄牌堆，你有一段優先時間。點選一張與棄牌堆頂牌面點數相同的手牌即可棄掉，原卡位留空。猜錯罰摸一張暗牌。配對成功後，同一個玩家可以在剩餘時間內繼續配對。啟用「開局配對」時，翻開的第一張棄牌也有配對機會。你可以跳過配對。</p>
         <p><b>搶丟對手牌</b>：啟用後，也可以猜一張對手的暗牌是否與棄牌堆頂同點數。猜對就棄掉對手這張牌，再選一張自己的牌扣放到對手原來的卡位。猜錯時對手的牌在原位翻回，猜牌者罰摸一張暗牌。</p>
         <p><b>跳過技能</b>：棄出 8、9、10 觸發技能時，可以點「跳過技能」直接棄牌，不看牌也不換牌。</p>
-        <p><b>喊 Monkey</b>：在你的回合開始時喊出，其餘玩家各再行動一輪後全員亮牌。發起者的手牌在本輪結束前免疫技能。發起者高於最低分時追加 10 分。啟用「平局也算失敗」時，並列最低同樣受罰。啟用「喊 Monkey 成功記 0 分」時，成功後只將發起者記為 0 分。</p>
+        <p><b>喊 Monkey</b>：在你的回合開始時喊出，其餘玩家各再行動一輪後全員亮牌。本輪結束前，其他玩家不能對發起者的手牌使用技能或進行配對。發起者高於最低分時追加 10 分。啟用「平局也算失敗」時，並列最低同樣受罰。啟用「喊 Monkey 成功記 0 分」時，成功後只將發起者記為 0 分。</p>
         <p><b>神風特攻</b>：啟用後，只要有人剩下的手牌恰好是 Q、Q、K、K，所有符合條件的玩家各記 0 分，其餘玩家各記 50 分。這時優先按神風特攻結算。</p>`
     },
     skill: { PEEK: ['8', '窺視', '檢視自己的一張牌'], SPY: ['9', '間諜', '檢視對手的一張牌'], SWAP: ['10', '盲換', '與對手的一張牌互換，不看牌面'] },
@@ -2550,7 +2550,7 @@ class Game {
   }
   cardDragCurrent(d) {
     return !this.paused && !this.panelOpen() && (this.prompt ?? this.slap) === d.context && d.c.loc === d.loc
-      && (!!d.mode || (this.humanSlapOpen() && !this.slap.busy));
+      && (!!d.mode || (this.humanSlapOpen() && !this.slap.busy && this.canSlapHand(0, d.loc.p)));
   }
   clearCardDrag() {
     const d = this.drag;
@@ -2595,7 +2595,7 @@ class Game {
       const { owner, slot: vacancy } = this.slap.compensation;
       return [zone(this.slotEls[owner][vacancy], slot, 10)];
     }
-    if (!mode && this.humanSlapOpen() && !this.slap.busy && !c.up && (l.p === 0 || this.canSlapOpponent(0))) {
+    if (!mode && this.humanSlapOpen() && !this.slap.busy && !c.up && this.canSlapHand(0, l.p)) {
       return [zone(discard, slot, 24)];
     }
     return [];
@@ -3296,10 +3296,9 @@ class Game {
     const canTake = mode === 'turn' && this.ar.takeDiscard && top && this.lastDiscardBy !== 0, canDrop = mode === 'held' && !this.heldFromDiscard;
     const humanWindow = this.humanSlapOpen();
     const canSlap = humanWindow && !S.busy && !this.paused;
-    const canSlapOpponent = canSlap && this.canSlapOpponent(0);
     for (const c of this.cards) {
       const l = c.loc; let hl = false, slap = false;
-      const slappable = canSlap && l.t === 'slot' && !c.up && (l.p === 0 || canSlapOpponent);
+      const slappable = canSlap && l.t === 'slot' && !c.up && this.canSlapHand(0, l.p);
       if (!this.paused) {
         if (c === topDeck && mode === 'turn') hl = true;
         if (c === top && (canTake || canDrop)) hl = true;
@@ -3797,6 +3796,9 @@ class Game {
   canSlapOpponent(actor) {
     return this.ar.opponentSlap && this.players[actor].slots.some(c => c && !c.up);
   }
+  canSlapHand(actor, owner) {
+    return owner === actor || (owner !== this.caller && this.canSlapOpponent(actor));
+  }
   humanSlapOpen() {
     const S = this.slap;
     return !!(S && S.phase === 'human' && !S.humanLocked && !S.skipped && !S.closed && S.t < S.humanMs);
@@ -3807,8 +3809,7 @@ class Game {
   }
   hasKnownSlapMatch(top = this.discard.at(-1)) {
     if (!top) return false;
-    const canSlapOpponent = this.canSlapOpponent(0);
-    return this.players.some((player, i) => (i === 0 || canSlapOpponent) &&
+    return this.players.some((player, i) => this.canSlapHand(0, i) &&
       player.slots.some(c => c && !c.up && this.humanKnown.has(c.id) && c.rank === top.rank));
   }
   autoSkipUnmatchedSlap(S, knownMatch) {
@@ -3880,8 +3881,7 @@ class Game {
     let best = null;
     for (const pi of actor === null ? [1, 2, 3] : [actor]) {
       const p = this.players[pi];
-      const canSlapOpponent = this.canSlapOpponent(pi);
-      const candidates = this.players.flatMap((other, owner) => (owner === pi || canSlapOpponent)
+      const candidates = this.players.flatMap((other, owner) => this.canSlapHand(pi, owner)
         ? other.slots.flatMap((c, i) => c && !c.up ? [{ owner, i, c }] : []) : []);
       const matches = candidates.filter(({ c }) => p.known.has(c.id) && c.rank === top.rank);
       if (!matches.length || (actor === null && Math.random() > p.aggro + .3)) continue;
@@ -3899,7 +3899,7 @@ class Game {
   async doSlap(pi, i, owner = pi) {
     const S = this.slap;
     if (!S || S.busy || (S.chainActor !== null && S.chainActor !== pi)) return;
-    if (owner !== pi && !this.canSlapOpponent(pi)) return;
+    if (!this.canSlapHand(pi, owner)) return;
     const c = this.players[owner].slots[i], top = this.discard.at(-1);
     if (!c || c.up || !top) return;
     if (pi === 0) this.armedMatchSkip = null;
