@@ -1,6 +1,6 @@
 const scope = new URL(self.registration.scope);
 const cachePrefix = `monkey:${encodeURIComponent(scope.pathname)}:`;
-const cacheName = `${cachePrefix}v1`;
+const cacheName = `${cachePrefix}v2`;
 const appShell = new URL('index.html', scope).href;
 const appAssets = new Set([
   appShell,
@@ -9,7 +9,6 @@ const appAssets = new Set([
     'icons/icon-192.png',
     'icons/icon-512.png',
     'icons/icon-maskable-512.png',
-    'icons/apple-touch-icon.png',
   ].map(path => new URL(path, scope).href),
 ]);
 
