@@ -14,13 +14,13 @@ python -m http.server 8080
 
 Then open [localhost:8080](http://localhost:8080).
 
-## Play on a phone
+## Browser play and installation
 
-Open the game in your phone's browser. The table adapts when you rotate the phone, and you can tap or drag cards in either orientation.
+Open the game in a browser on your device. The table adapts to portrait and landscape layouts, and you can tap or drag cards in either orientation.
 
-To install the game, serve the project on an HTTPS static host. The localhost URL above also supports desktop testing. On Android, open the site in Chrome and choose **Install app** or **Add to Home screen** from its menu. On iPhone, open the site in Safari, choose **Share → Add to Home Screen**, and enable **Open as Web App** if that option is shown. [Apple's installation guide](https://support.apple.com/guide/iphone/open-as-web-app-iphea86e5236/ios)
+To install the game, open it over HTTPS in a browser that supports web app installation and use the browser's install option. You can also use the localhost URL above to test installation.
 
-Launch **Combio** from the home screen to play without the browser toolbar. Fullscreen behavior depends on the browser and operating system. After the first successful online load, the game can start offline and resume a match saved in that app or browser.
+Launch **Combio** as a standalone app where supported. Once the browser has cached the game during an online visit, you can start it offline and resume a match saved in that app or browser.
 
 ## How to play
 
